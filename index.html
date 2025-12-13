@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>KMobin555 — Portfolio</title>
+  <meta name="description" content="Personal portfolio of KMobin555 — projects, about me, and contact.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:,"><!-- lightweight placeholder -->
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+  <h1 class="logo">Md Kamrujjaman Mobin</h1>
+      <nav>
+        <ul class="nav">
+          <li><a href="#about">About</a></li>
+          <li><a href="#research">Research</a></li>
+          <li><a href="#publications">Publications</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <!-- spacer removed -->
+        </ul>
+      </nav>
+
+      <div class="header-links">
+        <button id="view-cv" class="btn outline small" aria-haspopup="dialog">View CV</button>
+        <a class="btn small" href="/KamrujjamanMobin_CV.pdf" download>Download CV</a>
+        <button id="theme-toggle" class="btn icon-btn" aria-label="Toggle theme" title="Toggle theme">
+          <!-- sun / moon icon will be toggled by CSS (we include both paths and show/hide via .dark or .light) -->
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <g class="icon-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></g>
+            <g class="icon-moon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></g>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-text">
+            <h2>Hi, I'm Kamrujjaman Mobin</h2>
+            <p>I am an aspiring AI researcher pursuing PhD opportunities in machine learning and artificial intelligence. I work on research projects, experiments, and reproducible code focused on core ML methods and applications.</p>
+            <p class="muted">kamrujjamanmobin123@gmail.com · +880-1749-500-360 · <a href="https://github.com/KMobin555" target="_blank" rel="noopener">github.com/KMobin555</a></p>
+              <p>
+                <a class="btn" href="#research">View research</a>
+                <!-- <a class="btn" href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a> -->
+              </p>
+
+              <div class="hero-social" aria-label="social links">
+                <a href="mailto:kamrujjamanmobin123@gmail.com" title="Email"><img src="icons/email.jpeg" alt="email" class="social-img"></a>
+                <a href="tel:+8801749500360" title="Phone"><img src="icons/phone.webp" alt="phone" class="social-img"></a>
+                <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener" title="Google Scholar"><img src="icons/scholar.png" alt="Google Scholar" class="social-img"></a>
+                <a href="https://www.linkedin.com/in/mdkamrujjamanmobin/" target="_blank" rel="noopener" title="LinkedIn"><img src="icons/linkedin2.png" alt="LinkedIn" class="social-img"></a>
+                <a href="https://github.com/KMobin555" target="_blank" rel="noopener" title="Github"><img src="icons/github.webp" alt="Github" class="social-img"></a>
+                <a href="https://kaggle.com/mobin555" target="_blank" rel="noopener" title="Kaggle"><img src="icons/kaggle.png" alt="Kaggle" class="social-img"></a>
+              </div>
+          </div>
+          <div class="hero-photo" aria-hidden="false">
+            <img src="/mobin_port.jpg" alt="Md Kamrujjaman Mobin" class="profile-photo">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container">
+        <h3>About</h3>
+        <p>I am a researcher-in-training with interests in computer vision, graphical 3D modeling, and vision-language models. I aim to pursue PhD opportunities where I can contribute to rigorous research, reproducible code, and impactful publications.</p>
+        <h4>Education</h4>
+        <p>Shahjalal University of Science and Technology, Sylhet, Bangladesh — BSc. in Computer Science and Engineering (Feb 2020 — July 2025). Cumulative GPA: 3.83/4.00</p>
+        <p>Thesis: AI-Driven Health System for Mortality Prediction Using Electrocardiograms (ECGs) with Transformers and Selective State-Space Models.</p>
+
+        <h4>Research interests</h4>
+        <ul class="skills">
+          <li>Computer Vision</li>
+          <li>Graphical 3D Modeling</li>
+          <li>Vision-Language Models</li>
+          <li>Biosignal Processing (ECG)</li>
+        </ul>
+        <p>Find my academic profile on <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>, connect on <a href="https://www.linkedin.com/in/mdkamrujjamanmobin/" target="_blank" rel="noopener">LinkedIn</a>, or view notebooks on <a href="https://kaggle.com/mobin555" target="_blank" rel="noopener">Kaggle</a>.</p>
+      </div>
+    </section>
+    <section id="research" class="projects">
+      <div class="container">
+        <h3>Research & Projects</h3>
+        <div class="grid">
+          <article class="card">
+            <h4>Cardioformer</h4>
+            <p>Cardioformer: AI in ECG analysis with multi-granularity patching and ResNet integration. (Canadian AI 2025) — source code and model demos available.</p>
+            <p class="card-links"><a href="https://github.com/KMobin555/Cardioformer" target="_blank" rel="noopener">Code</a> · <a href="https://doi.org/10.48550/arXiv.2505.05538" target="_blank" rel="noopener">Preprint</a></p>
+          </article>
+
+          <article class="card">
+            <h4>George-B-Moody-Physionet-2024</h4>
+            <p>Transforming ECG images to waveforms with UNet-LSTM and multilabel classification using ResNet-LSTM; published at Computing in Cardiology 2024.</p>
+            <p class="card-links"><a href="https://github.com/KMobin555/George-B-Moody-Physionet-2024" target="_blank" rel="noopener">Code</a></p>
+          </article>
+
+          <article class="card">
+            <h4>CricPose360</h4>
+            <p>CricPose360: Dataset and real-time pose-enhanced cricket shot classification using YOLOv8. (ICCIT 2024)</p>
+            <p class="card-links"><a href="https://github.com/KMobin555/CricPose360" target="_blank" rel="noopener">Code</a></p>
+          </article>
+
+          <article class="card">
+            <h4>LuxVeri — GenAI Detection</h4>
+            <p>LuxVeri: Inverse perplexity weighted ensemble for robust detection of AI-generated text (COLING 2025). Multiple submission variants with source code.</p>
+            <p class="card-links"><a href="https://github.com/KMobin555/Luxveri-at-GenAi-Detection-Coling-2025" target="_blank" rel="noopener">Code (Task1)</a> · <a href="https://doi.org/10.48550/arXiv.2501.11914" target="_blank" rel="noopener">Preprint</a></p>
+          </article>
+
+          <article class="card">
+            <h4>Cross-Domain MGT Detection</h4>
+            <p>Cross-domain detection of AI-generated text using inverse perplexity-weighted ensemble of fine-tuned transformers (COLING 2025).</p>
+            <p class="card-links"><a href="https://github.com/KMobin555/Cross-Domain-MGT-Detection-at-Coling-2025" target="_blank" rel="noopener">Code (Task3)</a> · <a href="https://doi.org/10.48550/arXiv.2501.11918" target="_blank" rel="noopener">Preprint</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications" class="projects">
+      <div class="container">
+        <h3>Publications</h3>
+        <p>My publications and citations are available on <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>. Selected recent works:</p>
+        <div class="grid">
+          <article class="card">
+            <h4>Cardioformer: Advancing AI in ECG Analysis with Multi-Granularity Patching and ResNet</h4>
+            <p>K. Mobin, M. Saiful Islam, S. Al Barid, M. Masum — Canadian AI 2025. DOI / Preprint: <a href="https://doi.org/10.48550/arXiv.2505.05538" target="_blank" rel="noopener">10.48550/arXiv.2505.05538</a>.</p>
+            <p class="card-links"><a href="https://github.com/KMobin555/Cardioformer" target="_blank" rel="noopener">Code</a></p>
+          </article>
+
+          <article class="card">
+            <h4>Transforming ECG Images to Waveforms with UNet-LSTM</h4>
+            <p>K. Mobin — Computing in Cardiology (CinC) 2024. <a href="https://cinc.org/archives/2024/pdf/CinC2024-393.pdf">Conference paper</a>. Source code: <a href="https://github.com/KMobin555/George-B-Moody-Physionet-2024" target="_blank" rel="noopener">github.com/KMobin555/George-B-Moody-Physionet-2024</a>.</p>
+          </article>
+
+          <article class="card">
+            <h4>CricPose360: Pose-Enhanced Cricket Shot Classification</h4>
+            <p>M. K. Mobin, S. Al Barid, M. S. Rahman — ICCIT 2024. DOI: <a href="https://doi.org/10.1109/ICCIT64611.2024.11022536" target="_blank" rel="noopener">10.1109/ICCIT64611.2024.11022536</a>.</p>
+            <p class="card-links"><a href="https://github.com/KMobin555/CricPose360" target="_blank" rel="noopener">Code</a></p>
+          </article>
+
+          <article class="card">
+            <h4>LuxVeri — GenAI Detection (Task 1)</h4>
+            <p>Mobin & Saiful Islam — COLING 2025. Preprint: <a href="https://doi.org/10.48550/arXiv.2501.11914" target="_blank" rel="noopener">10.48550/arXiv.2501.11914</a>.</p>
+            <p class="card-links"><a href="https://github.com/KMobin555/Luxveri-at-GenAi-Detection-Coling-2025" target="_blank" rel="noopener">Task1 Code</a></p>
+          </article>
+
+          <article class="card">
+            <h4>Cross-Domain MGT Detection (LuxVeri — Task 3)</h4>
+            <p>Mobin & Saiful Islam — COLING 2025. Preprint: <a href="https://doi.org/10.48550/arXiv.2501.11918" target="_blank" rel="noopener">10.48550/arXiv.2501.11918</a>.</p>
+            <p class="card-links"><a href="https://github.com/KMobin555/Cross-Domain-MGT-Detection-at-Coling-2025" target="_blank" rel="noopener">Task3 Code</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <h3>Contact</h3>
+        <p>If you'd like to work together or say hi, send a message below.</p>
+        <form id="contact-form" class="contact-form" novalidate>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" required>
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required>
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+
+          <button type="submit" class="btn">Send message</button>
+          <p id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Md Kamrujjaman Mobin — Built with HTML, CSS & JS.</p>
+      <nav class="social-icons footer-icons" aria-label="social links">
+        <a href="mailto:kamrujjamanmobin123@gmail.com" class="icon-link email social-btn" title="Email">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/></svg>
+        </a>
+        <a href="tel:+8801749500360" class="icon-link phone social-btn" title="Phone">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.6 10.79a15.05 15.05 0 006.6 6.6l1.95-1.95a1 1 0 011.05-.24 11.72 11.72 0 003.66.58 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h2.75a1 1 0 011 1 11.72 11.72 0 00.58 3.66 1 1 0 01-.24 1.05L6.6 10.79z"/></svg>
+        </a>
+        <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener" class="icon-link scholar social-btn" title="Google Scholar">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2L1 7l11 5 9-4.09V17H12V2z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/mdkamrujjamanmobin/" target="_blank" rel="noopener" class="icon-link linkedin social-btn" title="LinkedIn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.6 4.08 5.5 2.98 5.5S1 4.6 1 3.5 1.9 1.5 3 1.5 4.98 2.4 4.98 3.5zM.5 8h5v13h-5V8zm7 0h4.75v1.8h.07c.66-1.24 2.27-2.54 4.68-2.54C22.58 7.26 24 9.2 24 13.02V21h-5v-7.2c0-1.73-.03-3.95-2.41-3.95-2.41 0-2.78 1.88-2.78 3.82V21H7V8z"/></svg>
+        </a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- CV modal -->
+  <div id="cv-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-panel" role="document">
+      <div class="modal-header">
+        <h4>Curriculum Vitae — Md Kamrujjaman Mobin</h4>
+        <button id="cv-close" class="icon-btn" aria-label="Close CV viewer">✕</button>
+      </div>
+      <div class="modal-body">
+        <iframe id="cv-frame" src="/KamrujjamanMobin_CV.pdf" frameborder="0" title="CV" aria-label="CV preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
