@@ -24,7 +24,7 @@ strong { font-weight: 600; }
   flex-shrink: 0;
   animation: pulse-dot 2s ease-in-out infinite;
 }
-[data-theme="dark"] .pulse-dot { background: #60a5fa; }
+.dark .pulse-dot { background: #60a5fa; }
 
 /* ── Card top-border hover effect ─────────────────────────── */
 .card-tw, .pop-card { position: relative; overflow: hidden; }
@@ -37,7 +37,7 @@ strong { font-weight: 600; }
 
 /* ── Active nav link ──────────────────────────────────────── */
 .nl.active { color: #0f172a !important; background: #f1f5f9 !important; }
-[data-theme="dark"] .nl.active { color: #f1f5f9 !important; background: #1e293b !important; }
+.dark .nl.active { color: #f1f5f9 !important; background: #1e293b !important; }
 
 /* ── Section title accent bar ─────────────────────────────── */
 .sec-title { position: relative; display: inline-block; padding-bottom: 14px; }

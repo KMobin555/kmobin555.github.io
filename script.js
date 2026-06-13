@@ -4,26 +4,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // ── Theme ─────────────────────────────────────────────────────────────
-  // Always default to light — never reads prefers-color-scheme
-  const root     = document.documentElement;
-  const themeBtn = document.getElementById('theme-toggle');
-
-  function applyTheme(t) {
-    if (t === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    root.setAttribute('data-theme', t);
-    try { localStorage.setItem('theme', t); } catch (_) {}
-  }
-
-  const saved = (() => { try { return localStorage.getItem('theme'); } catch (_) { return null; } })();
-  applyTheme(saved === 'dark' ? 'dark' : 'light');
+  // ── Theme toggle ───────────────────────────────────────────────────────
+  const themeBtn  = document.getElementById('theme-toggle');
+  const iconSun   = document.getElementById('icon-sun');
+  const iconMoon  = document.getElementById('icon-moon');
 
   themeBtn?.addEventListener('click', () => {
-    applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    const isDark = document.documentElement.classList.toggle('dark');
+    iconSun.classList.toggle('hidden', !isDark);
+    iconMoon.classList.toggle('hidden', isDark);
   });
 
   // ── CV Modal ───────────────────────────────────────────────────────────
@@ -44,7 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     viewBtn.addEventListener('click', openModal);
     cvClose?.addEventListener('click', closeModal);
-    cvModal.addEventListener('click', e => { if (e.target === cvModal || e.target.hasAttribute('data-close')) closeModal(); });
+    cvModal.addEventListener('click', e => {
+      if (e.target === cvModal || e.target.hasAttribute('data-close')) closeModal();
+    });
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && cvModal.getAttribute('aria-hidden') !== 'true') closeModal();
     });
