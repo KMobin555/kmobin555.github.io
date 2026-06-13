@@ -1,217 +1,723 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Kamrujjaman Mobin</title>
-  <meta name="description" content="Personal portfolio of KMobin555 — projects, about me, and contact.">
+  <title>Md Kamrujjaman Mobin</title>
+  <meta name="description" content="AI researcher and Software Engineer at Samsung R&D. Specializing in computer vision, embodied AI, and multimodal learning.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans:    ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer components {
+      .btn-primary {
+        @apply inline-flex items-center justify-center gap-1.5 px-5 py-2 rounded-lg text-sm font-medium bg-blue-800 text-white hover:opacity-90 hover:-translate-y-px transition-all duration-200 no-underline cursor-pointer border-0;
+      }
+      .btn-ghost {
+        @apply inline-flex items-center justify-center gap-1.5 px-5 py-2 rounded-lg text-sm font-medium bg-transparent border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:border-blue-800 dark:hover:border-blue-600 hover:text-blue-800 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 no-underline cursor-pointer;
+      }
+      .nl {
+        @apply text-sm font-medium text-slate-500 dark:text-slate-400 px-3 py-1.5 rounded-md hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-150 no-underline;
+      }
+      .badge {
+        @apply inline-block px-2.5 py-[3px] rounded text-[0.7rem] font-semibold tracking-wide bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800;
+      }
+      .card-tw {
+        @apply relative overflow-hidden bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 md:p-6 flex flex-col gap-2.5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] hover:-translate-y-1 transition-all duration-200;
+      }
+      .skill-chip {
+        @apply text-[0.78rem] px-2.5 py-1 rounded-md border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700/50;
+      }
+      .ql {
+        @apply flex items-center gap-2.5 px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-[0.83rem] font-medium hover:border-blue-800 hover:text-blue-800 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:translate-x-1 transition-all duration-200 no-underline;
+      }
+      /* ── Colored link buttons ───────────────────────────── */
+      .ilink-base {
+        @apply inline-flex items-center gap-1.5 text-[0.74rem] font-semibold px-2.5 py-[5px] rounded-md transition-all duration-150 no-underline opacity-75 hover:opacity-100;
+      }
+      .ilink-github {
+        @apply ilink-base text-white bg-[#24292f] border border-[#24292f] hover:bg-[#1a1f24];
+      }
+      .ilink-arxiv {
+        @apply ilink-base text-white bg-[#b31b1b] border border-[#b31b1b] hover:bg-[#8b1515];
+      }
+      .ilink-paper {
+        @apply ilink-base text-white bg-blue-700 border border-blue-700 hover:bg-blue-800;
+      }
+      .ilink-doi {
+        @apply ilink-base text-white bg-emerald-700 border border-emerald-700 hover:bg-emerald-800;
+      }
+      .ilink-notebook {
+        @apply ilink-base text-white bg-[#20BEFF] border border-[#20BEFF] hover:opacity-90;
+      }
+      .ilink-demo {
+        @apply ilink-base text-white bg-violet-600 border border-violet-600 hover:bg-violet-700;
+      }
+    }
+  </style>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="/icons/cropped_circle_image.png"><!-- lightweight placeholder -->
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icons/cropped_circle_image.png" type="image/png">
 </head>
-<body>
-  <header class="site-header">
-    <div class="container header-inner">
-  <h1 class="logo">Md Kamrujjaman Mobin</h1>
-      <nav>
-        <ul class="nav">
-          <li><a href="#about">About</a></li>
-          <li><a href="#research">Research</a></li>
-          <li><a href="#publications">Publications</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <!-- spacer removed -->
-        </ul>
-      </nav>
+<body class="font-sans antialiased bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 overflow-x-hidden">
 
-      <div class="header-links">
-        <button id="view-cv" class="btn outline small" aria-haspopup="dialog">View CV</button>
-        <a class="btn small" href="/KamrujjamanMobin_CV.pdf" download>Download CV</a>
-        <button id="theme-toggle" class="btn icon-btn" aria-label="Toggle theme" title="Toggle theme">
-          <!-- sun / moon icon will be toggled by CSS (we include both paths and show/hide via .dark or .light) -->
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <g class="icon-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></g>
-            <g class="icon-moon"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></g>
-          </svg>
-        </button>
-      </div>
+<!-- SVG icon defs (hidden) ─────────────────────────────────────── -->
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="ico-github" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297 24 5.67 18.627 0 12 0z"/>
+  </symbol>
+  <symbol id="ico-paper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="16" y1="13" x2="8" y2="13"/>
+    <line x1="16" y1="17" x2="8" y2="17"/>
+    <line x1="10" y1="9" x2="8" y2="9"/>
+  </symbol>
+  <symbol id="ico-arxiv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+  </symbol>
+  <symbol id="ico-doi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+  </symbol>
+  <symbol id="ico-notebook" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+    <line x1="3" y1="9" x2="21" y2="9"/>
+    <line x1="3" y1="15" x2="21" y2="15"/>
+    <line x1="9" y1="3" x2="9" y2="21"/>
+  </symbol>
+  <symbol id="ico-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    <polyline points="15 3 21 3 21 9"/>
+    <line x1="10" y1="14" x2="21" y2="3"/>
+  </symbol>
+</svg>
+
+<!-- ─── NAV ───────────────────────────────────────────────────── -->
+<header class="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 transition-colors duration-200">
+  <div class="max-w-7xl mx-auto px-6 flex items-center gap-3 h-[60px]">
+    <a href="#hero" class="font-display font-bold text-[0.95rem] text-slate-900 dark:text-slate-100 hover:text-blue-800 dark:hover:text-blue-400 no-underline shrink-0 transition-colors">Md Kamrujjaman Mobin</a>
+    <nav class="flex-1 flex items-center justify-center gap-0.5 max-lg:hidden">
+      <a href="#about"        class="nl">About</a>
+      <a href="#experience"   class="nl">Experience</a>
+      <a href="#publications" class="nl">Publications</a>
+      <a href="#research"     class="nl">Research</a>
+      <a href="#projects"     class="nl">Projects</a>
+      <a href="#contact"      class="nl">Contact</a>
+    </nav>
+    <div class="flex items-center gap-2 ml-auto">
+      <button id="theme-toggle" aria-label="Toggle theme"
+        class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center hover:border-slate-300 dark:hover:border-slate-600 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-150 bg-transparent cursor-pointer">
+        <svg class="hidden dark:block" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="block dark:hidden" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button id="view-cv" class="btn-primary max-sm:hidden">CV</button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
-    <section class="hero">
-      <div class="container">
-        <div class="hero-inner">
-          <div class="hero-text">
-            <h2>Hi, I'm Kamrujjaman Mobin</h2>
-            <p>I am an aspiring AI researcher pursuing PhD opportunities in machine learning and artificial intelligence. I work on research projects, experiments, and reproducible code focused on core ML methods and applications.</p>
-            <p class="muted">kamrujjamanmobin123@gmail.com · +880-1749-500-360 · <a href="https://github.com/KMobin555" target="_blank" rel="noopener">github.com/KMobin555</a></p>
-              <p>
-                <a class="btn" href="#research">View research</a>
-                <!-- <a class="btn" href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a> -->
-              </p>
+<main>
 
-              <div class="hero-social" aria-label="social links">
-                <a href="mailto:kamrujjamanmobin123@gmail.com" title="Email"><img src="icons/email.jpeg" alt="email" class="social-img"></a>
-                <a href="tel:+8801749500360" title="Phone"><img src="icons/phone.webp" alt="phone" class="social-img"></a>
-                <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener" title="Google Scholar"><img src="icons/scholar.png" alt="Google Scholar" class="social-img"></a>
-                <a href="https://www.linkedin.com/in/mdkamrujjamanmobin/" target="_blank" rel="noopener" title="LinkedIn"><img src="icons/linkedin2.png" alt="LinkedIn" class="social-img"></a>
-                <a href="https://github.com/KMobin555" target="_blank" rel="noopener" title="Github"><img src="icons/github.webp" alt="Github" class="social-img"></a>
-                <a href="https://kaggle.com/mobin555" target="_blank" rel="noopener" title="Kaggle"><img src="icons/kaggle.png" alt="Kaggle" class="social-img"></a>
-              </div>
+<!-- ─── HERO ──────────────────────────────────────────────────── -->
+<section id="hero" class="py-[72px] md:py-20 bg-white dark:bg-slate-900">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-[256px_1fr] gap-9 md:gap-16 items-center">
+
+      <div class="flex flex-col items-center gap-5">
+        <div class="photo-wrap rounded-2xl p-1 bg-gradient-to-br from-blue-800 to-sky-400 shadow-[0_0_48px_rgba(30,64,175,.18)]">
+          <img src="assets/images/mobin_port.jpg" alt="Md Kamrujjaman Mobin"
+               class="w-[220px] h-[260px] object-cover rounded-[13px] block">
+        </div>
+        <div class="hero-links flex flex-col gap-2 w-full">
+          <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener" class="ql">
+            <img src="assets/icons/scholar.png" alt="" class="w-5 h-5 object-contain rounded-[4px]"> Google Scholar
+          </a>
+          <a href="https://www.linkedin.com/in/mdkamrujjamanmobin/" target="_blank" rel="noopener" class="ql">
+            <img src="assets/icons/linkedin2.png" alt="" class="w-5 h-5 object-contain rounded-[4px]"> LinkedIn
+          </a>
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ql">
+            <img src="assets/icons/github.webp" alt="" class="w-5 h-5 object-contain rounded-[4px]"> GitHub
+          </a>
+          <a href="https://kaggle.com/mobin555" target="_blank" rel="noopener" class="ql">
+            <img src="assets/icons/kaggle.png" alt="" class="w-5 h-5 object-contain rounded-[4px]"> Kaggle
+          </a>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4 md:gap-5">
+        <div class="hero-badge-anim flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-400 text-[0.78rem] font-semibold tracking-wide w-fit">
+          <span class="pulse-dot"></span>
+          Software Engineer I &nbsp;@&nbsp; Samsung R&amp;D &nbsp;·&nbsp; B.Sc. Computer Science &amp; Engineering, SUST
+        </div>
+        <h1 class="hero-name-anim font-display font-bold leading-[1.1] tracking-tight text-slate-900 dark:text-slate-100"
+            style="font-size:clamp(2.2rem,5vw,3.2rem)">
+          Md Kamrujjaman <span class="text-blue-800 dark:text-blue-400">Mobin</span>
+        </h1>
+        <p class="hero-sub-anim text-[1.02rem] text-slate-600 dark:text-slate-300 leading-relaxed max-w-[560px]">
+          Building on-device AI at <strong class="text-slate-900 dark:text-slate-100 font-semibold">Samsung R&amp;D Bangladesh</strong> while pursuing research in
+          <strong class="text-slate-900 dark:text-slate-100 font-semibold">computer vision</strong>,
+          <strong class="text-slate-900 dark:text-slate-100 font-semibold">embodied AI</strong>, and
+          <strong class="text-slate-900 dark:text-slate-100 font-semibold">multimodal learning</strong>.
+        </p>
+        <div class="hero-sub-anim flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.85rem] text-slate-500 dark:text-slate-400">
+          <a href="mailto:kamrujjamanmobin123@gmail.com" class="inline-flex items-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-400 no-underline transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            kamrujjamanmobin123@gmail.com
+          </a>
+          <span class="opacity-30 max-sm:hidden">&middot;</span>
+          <a href="tel:+8801749500360" class="inline-flex items-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-400 no-underline transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            +880-1749-500-360
+          </a>
+        </div>
+        <div class="hero-stats-anim flex border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden w-fit">
+          <div class="flex flex-col items-center px-6 py-3 border-r border-slate-200 dark:border-slate-700">
+            <span class="font-display font-bold text-[1.4rem] text-blue-800 dark:text-blue-400">5</span>
+            <span class="text-[0.7rem] text-slate-500 dark:text-slate-400 mt-0.5 whitespace-nowrap">Publications</span>
           </div>
-          <div class="hero-photo" aria-hidden="false">
-            <img src="/mobin_port.jpg" alt="Md Kamrujjaman Mobin" class="profile-photo">
+          <div class="flex flex-col items-center px-6 py-3 border-r border-slate-200 dark:border-slate-700">
+            <span class="font-display font-bold text-[1.4rem] text-blue-800 dark:text-blue-400">3.83</span>
+            <span class="text-[0.7rem] text-slate-500 dark:text-slate-400 mt-0.5 whitespace-nowrap">GPA / 4.00</span>
+          </div>
+          <div class="flex flex-col items-center px-6 py-3">
+            <span class="font-display font-bold text-[1.4rem] text-blue-800 dark:text-blue-400">2 &#x1F949;</span>
+            <span class="text-[0.7rem] text-slate-500 dark:text-slate-400 mt-0.5 whitespace-nowrap">Kaggle Medals</span>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section id="about" class="about">
-      <div class="container">
-        <h3>About</h3>
-        <p>I am a researcher-in-training with interests in computer vision, graphical 3D modeling, and vision-language models. I aim to pursue PhD opportunities where I can contribute to rigorous research, reproducible code, and impactful publications.</p>
-        <h4>Education</h4>
-        <p>Shahjalal University of Science and Technology, Sylhet, Bangladesh — BSc. in Computer Science and Engineering (Feb 2020 — July 2025). Cumulative GPA: 3.83/4.00</p>
-        <p>Thesis: AI-Driven Health System for Mortality Prediction Using Electrocardiograms (ECGs) with Transformers and Selective State-Space Models.</p>
-
-        <h4>Research interests</h4>
-        <ul class="skills">
-          <li>Computer Vision</li>
-          <li>Graphical 3D Modeling</li>
-          <li>Vision-Language Models</li>
-          <li>Biosignal Processing (ECG)</li>
-        </ul>
-        <p>Find my academic profile on <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>, connect on <a href="https://www.linkedin.com/in/mdkamrujjamanmobin/" target="_blank" rel="noopener">LinkedIn</a>, or view notebooks on <a href="https://kaggle.com/mobin555" target="_blank" rel="noopener">Kaggle</a>.</p>
-      </div>
-    </section>
-    <section id="research" class="projects">
-      <div class="container">
-        <h3>Research & Projects</h3>
-        <div class="grid">
-          <article class="card">
-            <h4>Cardioformer</h4>
-            <p>Cardioformer: AI in ECG analysis with multi-granularity patching and ResNet integration. (Canadian AI 2025) — source code and model demos available.</p>
-            <p class="card-links"><a href="https://github.com/KMobin555/Cardioformer" target="_blank" rel="noopener">Code</a> · <a href="https://doi.org/10.48550/arXiv.2505.05538" target="_blank" rel="noopener">Preprint</a></p>
-          </article>
-
-          <article class="card">
-            <h4>George-B-Moody-Physionet-2024</h4>
-            <p>Transforming ECG images to waveforms with UNet-LSTM and multilabel classification using ResNet-LSTM; published at Computing in Cardiology 2024.</p>
-            <p class="card-links"><a href="https://github.com/KMobin555/George-B-Moody-Physionet-2024" target="_blank" rel="noopener">Code</a></p>
-          </article>
-
-          <article class="card">
-            <h4>CricPose360</h4>
-            <p>CricPose360: Dataset and real-time pose-enhanced cricket shot classification using YOLOv8. (ICCIT 2024)</p>
-            <p class="card-links"><a href="https://github.com/KMobin555/CricPose360" target="_blank" rel="noopener">Code</a></p>
-          </article>
-
-          <article class="card">
-            <h4>LuxVeri — GenAI Detection</h4>
-            <p>LuxVeri: Inverse perplexity weighted ensemble for robust detection of AI-generated text (COLING 2025). Multiple submission variants with source code.</p>
-            <p class="card-links"><a href="https://github.com/KMobin555/Luxveri-at-GenAi-Detection-Coling-2025" target="_blank" rel="noopener">Code (Task1)</a> · <a href="https://doi.org/10.48550/arXiv.2501.11914" target="_blank" rel="noopener">Preprint</a></p>
-          </article>
-
-          <article class="card">
-            <h4>Cross-Domain MGT Detection</h4>
-            <p>Cross-domain detection of AI-generated text using inverse perplexity-weighted ensemble of fine-tuned transformers (COLING 2025).</p>
-            <p class="card-links"><a href="https://github.com/KMobin555/Cross-Domain-MGT-Detection-at-Coling-2025" target="_blank" rel="noopener">Code (Task3)</a> · <a href="https://doi.org/10.48550/arXiv.2501.11918" target="_blank" rel="noopener">Preprint</a></p>
-          </article>
+        <div class="hero-btns-anim flex gap-3 flex-wrap">
+          <a href="#research" class="btn-primary">View Research</a>
+          <a href="#contact"  class="btn-ghost">Get in Touch</a>
         </div>
-      </div>
-    </section>
-
-    <section id="publications" class="projects">
-      <div class="container">
-        <h3>Publications</h3>
-        <p>My publications and citations are available on <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>. Selected recent works:</p>
-        <div class="grid">
-          <article class="card">
-            <h4>Cardioformer: Advancing AI in ECG Analysis with Multi-Granularity Patching and ResNet</h4>
-            <p>K. Mobin, M. Saiful Islam, S. Al Barid, M. Masum — Canadian AI 2025. DOI / Preprint: <a href="https://doi.org/10.48550/arXiv.2505.05538" target="_blank" rel="noopener">10.48550/arXiv.2505.05538</a>.</p>
-            <p class="card-links"><a href="https://github.com/KMobin555/Cardioformer" target="_blank" rel="noopener">Code</a></p>
-          </article>
-
-          <article class="card">
-            <h4>Transforming ECG Images to Waveforms with UNet-LSTM</h4>
-            <p>K. Mobin — Computing in Cardiology (CinC) 2024. <a href="https://cinc.org/archives/2024/pdf/CinC2024-393.pdf">Conference paper</a>. Source code: <a href="https://github.com/KMobin555/George-B-Moody-Physionet-2024" target="_blank" rel="noopener">github.com/KMobin555/George-B-Moody-Physionet-2024</a>.</p>
-          </article>
-
-          <article class="card">
-            <h4>CricPose360: Pose-Enhanced Cricket Shot Classification</h4>
-            <p>M. K. Mobin, S. Al Barid, M. S. Rahman — ICCIT 2024. DOI: <a href="https://doi.org/10.1109/ICCIT64611.2024.11022536" target="_blank" rel="noopener">10.1109/ICCIT64611.2024.11022536</a>.</p>
-            <p class="card-links"><a href="https://github.com/KMobin555/CricPose360" target="_blank" rel="noopener">Code</a></p>
-          </article>
-
-          <article class="card">
-            <h4>LuxVeri — GenAI Detection (Task 1)</h4>
-            <p>Mobin & Saiful Islam — COLING 2025. Preprint: <a href="https://doi.org/10.48550/arXiv.2501.11914" target="_blank" rel="noopener">10.48550/arXiv.2501.11914</a>.</p>
-            <p class="card-links"><a href="https://github.com/KMobin555/Luxveri-at-GenAi-Detection-Coling-2025" target="_blank" rel="noopener">Task1 Code</a></p>
-          </article>
-
-          <article class="card">
-            <h4>Cross-Domain MGT Detection (LuxVeri — Task 3)</h4>
-            <p>Mobin & Saiful Islam — COLING 2025. Preprint: <a href="https://doi.org/10.48550/arXiv.2501.11918" target="_blank" rel="noopener">10.48550/arXiv.2501.11918</a>.</p>
-            <p class="card-links"><a href="https://github.com/KMobin555/Cross-Domain-MGT-Detection-at-Coling-2025" target="_blank" rel="noopener">Task3 Code</a></p>
-          </article>
+        <!-- Seeking research opportunities banner -->
+        <div class="mt-8 flex items-center gap-2.5 px-5 py-2.5 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 w-fit">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#15803d;flex-shrink:0;animation:pulse-dot 2s ease-in-out infinite"></span>
+          <span class="text-[0.82rem] font-semibold text-green-800 dark:text-green-400 tracking-wide">Actively seeking research opportunities &nbsp;&middot;&nbsp; Computer Vision, Multimodal Learning &amp; Embodied AI</span>
         </div>
-      </div>
-    </section>
-
-    <section id="contact" class="contact">
-      <div class="container">
-        <h3>Contact</h3>
-        <p>If you'd like to work together or say hi, send a message below.</p>
-        <form id="contact-form" class="contact-form" novalidate>
-          <label for="name">Name</label>
-          <input id="name" name="name" type="text" required>
-
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" required>
-
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
-
-          <button type="submit" class="btn">Send message</button>
-          <p id="form-status" role="status" aria-live="polite"></p>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Md Kamrujjaman Mobin — Built with HTML, CSS & JS.</p>
-      <nav class="social-icons footer-icons" aria-label="social links">
-        <a href="mailto:kamrujjamanmobin123@gmail.com" class="icon-link email social-btn" title="Email">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/></svg>
-        </a>
-        <a href="tel:+8801749500360" class="icon-link phone social-btn" title="Phone">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M6.6 10.79a15.05 15.05 0 006.6 6.6l1.95-1.95a1 1 0 011.05-.24 11.72 11.72 0 003.66.58 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h2.75a1 1 0 011 1 11.72 11.72 0 00.58 3.66 1 1 0 01-.24 1.05L6.6 10.79z"/></svg>
-        </a>
-        <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener" class="icon-link scholar social-btn" title="Google Scholar">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2L1 7l11 5 9-4.09V17H12V2z"/></svg>
-        </a>
-        <a href="https://www.linkedin.com/in/mdkamrujjamanmobin/" target="_blank" rel="noopener" class="icon-link linkedin social-btn" title="LinkedIn">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.6 4.08 5.5 2.98 5.5S1 4.6 1 3.5 1.9 1.5 3 1.5 4.98 2.4 4.98 3.5zM.5 8h5v13h-5V8zm7 0h4.75v1.8h.07c.66-1.24 2.27-2.54 4.68-2.54C22.58 7.26 24 9.2 24 13.02V21h-5v-7.2c0-1.73-.03-3.95-2.41-3.95-2.41 0-2.78 1.88-2.78 3.82V21H7V8z"/></svg>
-        </a>
-      </nav>
-    </div>
-  </footer>
-
-  <!-- CV modal -->
-  <div id="cv-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-backdrop" data-close="true"></div>
-    <div class="modal-panel" role="document">
-      <div class="modal-header">
-        <h4>Curriculum Vitae — Md Kamrujjaman Mobin</h4>
-        <button id="cv-close" class="icon-btn" aria-label="Close CV viewer">✕</button>
-      </div>
-      <div class="modal-body">
-        <iframe id="cv-frame" src="/KamrujjamanMobin_CV.pdf" frameborder="0" title="CV" aria-label="CV preview"></iframe>
       </div>
     </div>
   </div>
+</section>
 
-  <script src="script.js"></script>
+<!-- ─── ABOUT ─────────────────────────────────────────────────── -->
+<section id="about" class="py-[72px] bg-slate-50 dark:bg-slate-800/50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="fade-up mb-10">
+      <span class="block text-[0.72rem] font-bold uppercase tracking-[2px] text-blue-800 dark:text-blue-400 mb-2">Background</span>
+      <h2 class="sec-title font-display font-bold tracking-tight text-slate-900 dark:text-slate-100" style="font-size:1.9rem">About Me</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+      <!-- Research Interests -->
+      <div class="pop-card fade-up bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-[0_1px_4px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200">
+        <h3 class="text-[0.72rem] font-bold uppercase tracking-[1.2px] text-slate-400 dark:text-slate-500 mb-4">Research Interests</h3>
+        <div class="flex flex-wrap gap-2 mb-5">
+          <span class="text-[0.78rem] font-medium px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">Computer Vision</span>
+          <span class="text-[0.78rem] font-medium px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">Embodied AI &amp; VLN</span>
+          <span class="text-[0.78rem] font-medium px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">VLA Models</span>
+          <span class="text-[0.78rem] font-medium px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">Multimodal Learning</span>
+          <span class="text-[0.78rem] font-medium px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">Biomedical AI</span>
+          <span class="text-[0.78rem] font-medium px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">NLP</span>
+          <span class="text-[0.78rem] font-medium px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">Physical AI &amp; Robotics</span>
+        </div>
+        <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+          <p class="text-[0.85rem] text-slate-700 dark:text-slate-300 mb-2">
+            IELTS Academic &mdash; <strong class="text-blue-800 dark:text-blue-400 text-[1rem]">7.0</strong>
+            <em class="not-italic text-slate-400 dark:text-slate-500 text-[0.78rem] ml-1.5">Nov 2025</em>
+          </p>
+          <div class="flex gap-4">
+            <span class="text-[0.8rem] text-slate-500 dark:text-slate-400">L: 7.5</span>
+            <span class="text-[0.8rem] text-slate-500 dark:text-slate-400">R: 7.0</span>
+            <span class="text-[0.8rem] text-slate-500 dark:text-slate-400">S: 6.5</span>
+            <span class="text-[0.8rem] text-slate-500 dark:text-slate-400">W: 6.0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="pop-card fade-up bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-[0_1px_4px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200">
+        <h3 class="text-[0.72rem] font-bold uppercase tracking-[1.2px] text-slate-400 dark:text-slate-500 mb-4">Education</h3>
+        <div class="font-display font-semibold text-[0.95rem] text-slate-900 dark:text-slate-100 mb-1">Shahjalal University of Science &amp; Technology</div>
+        <div class="text-[0.87rem] text-slate-600 dark:text-slate-300 mb-1">B.Sc. in Computer Science &amp; Engineering</div>
+        <div class="text-[0.8rem] text-blue-800 dark:text-blue-400 font-medium mb-3">Feb 2020 &ndash; Jul 2025 &nbsp;&middot;&nbsp; CGPA: <strong>3.83 / 4.00</strong></div>
+        <p class="text-[0.83rem] text-slate-500 dark:text-slate-400 leading-relaxed italic mb-3">
+          <em>Thesis:</em> AI-Driven Health System for Mortality Prediction Using ECGs with Transformers and Selective State-Space Models.
+        </p>
+        <a href="https://drive.google.com/file/d/1ewEZTR8hU4GDD3K4lAxRCF_qF6knuYMv/view" target="_blank" rel="noopener" class="ilink-paper w-fit">
+          <svg width="12" height="12" aria-hidden="true"><use href="#ico-paper"/></svg> Thesis PDF
+        </a>
+      </div>
+
+      <!-- Skills — full width -->
+      <div class="pop-card fade-up md:col-span-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-[0_1px_4px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200">
+        <h3 class="text-[0.72rem] font-bold uppercase tracking-[1.2px] text-slate-400 dark:text-slate-500 mb-4">Technical Skills</h3>
+        <div class="flex flex-col gap-3">
+          <div class="flex items-start gap-4">
+            <span class="text-[0.72rem] font-bold uppercase tracking-[0.8px] text-slate-400 dark:text-slate-500 min-w-[84px] shrink-0 pt-1">Languages</span>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="skill-chip">Python</span><span class="skill-chip">C++</span><span class="skill-chip">Java</span><span class="skill-chip">Kotlin</span><span class="skill-chip">JavaScript</span><span class="skill-chip">C</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-[0.72rem] font-bold uppercase tracking-[0.8px] text-slate-400 dark:text-slate-500 min-w-[84px] shrink-0 pt-1">ML / AI</span>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="skill-chip">PyTorch</span><span class="skill-chip">HuggingFace</span><span class="skill-chip">Scikit-learn</span><span class="skill-chip">OpenCV</span><span class="skill-chip">NumPy</span><span class="skill-chip">Pandas</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-[0.72rem] font-bold uppercase tracking-[0.8px] text-slate-400 dark:text-slate-500 min-w-[84px] shrink-0 pt-1">Research</span>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="skill-chip">Computer Vision</span><span class="skill-chip">NLP</span><span class="skill-chip">Multimodal</span><span class="skill-chip">Embodied AI</span><span class="skill-chip">VLA</span><span class="skill-chip">Signal Processing</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-[0.72rem] font-bold uppercase tracking-[0.8px] text-slate-400 dark:text-slate-500 min-w-[84px] shrink-0 pt-1">Academic</span>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="skill-chip">Research Writing</span><span class="skill-chip">Experimental Design</span><span class="skill-chip">Peer Review</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── EXPERIENCE ─────────────────────────────────────────────── -->
+<section id="experience" class="py-[72px] bg-white dark:bg-slate-900">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="fade-up mb-10">
+      <span class="block text-[0.72rem] font-bold uppercase tracking-[2px] text-blue-800 dark:text-blue-400 mb-2">Industry</span>
+      <h2 class="sec-title font-display font-bold tracking-tight text-slate-900 dark:text-slate-100" style="font-size:1.9rem">Professional Experience</h2>
+    </div>
+
+    <div class="fade-up flex flex-col gap-5">
+      <!-- Company header -->
+      <div class="flex items-start justify-between flex-wrap gap-3">
+        <div>
+          <h3 class="font-display font-bold text-[1.12rem] text-slate-900 dark:text-slate-100 mb-1">Samsung R&amp;D Institute Bangladesh</h3>
+          <p class="text-[0.87rem] text-slate-500 dark:text-slate-400">Software Engineer I &nbsp;&middot;&nbsp; Dhaka, Bangladesh</p>
+        </div>
+        <span class="px-4 py-1.5 rounded-full text-[0.75rem] font-semibold bg-green-50 text-green-800 border border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800 whitespace-nowrap self-start">July 2025 &ndash; Present</span>
+      </div>
+
+      <!-- 2×2 individual project cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-[18px]">
+
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex flex-col gap-3">
+          <div class="flex items-center flex-wrap gap-2">
+            <span class="font-display font-semibold text-[0.93rem] text-slate-900 dark:text-slate-100">Brain Pulse App</span>
+            <span class="text-[0.71rem] font-medium px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">Launching 2027</span>
+          </div>
+          <p class="text-[0.85rem] text-slate-600 dark:text-slate-300 leading-[1.75]">Android app for longitudinal cognitive health monitoring via on-device ML. Multi-module Clean Architecture (Hilt DI, Room DB, WorkManager); on-device ONNX/TFLite inference over a <strong class="text-slate-800 dark:text-slate-200">10+ biomarker</strong> feature extraction pipeline.</p>
+        </div>
+
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex flex-col gap-3">
+          <div class="flex items-center flex-wrap gap-2">
+            <span class="font-display font-semibold text-[0.93rem] text-slate-900 dark:text-slate-100">RSDS Mobile SDK</span>
+            <span class="text-[0.71rem] font-medium px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">Remote Sensor Data Service</span>
+          </div>
+          <p class="text-[0.85rem] text-slate-600 dark:text-slate-300 leading-[1.75]">Clinical-grade SDK collecting <strong class="text-slate-800 dark:text-slate-200">40+ sensor modalities</strong> from smartphone &amp; Wear OS. KMP architecture with SQLCipher-encrypted storage and AES encryption for HIPAA-compliant data handling.</p>
+        </div>
+
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex flex-col gap-3">
+          <div class="flex items-center flex-wrap gap-2">
+            <span class="font-display font-semibold text-[0.93rem] text-slate-900 dark:text-slate-100">Compass Watch App</span>
+            <span class="text-[0.71rem] font-medium px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">Galaxy Smartwatch 7 &amp; 8</span>
+          </div>
+          <p class="text-[0.85rem] text-slate-600 dark:text-slate-300 leading-[1.75]">Wearable sensor calibration utility. Refactoring achieved <strong class="text-slate-800 dark:text-slate-200">7.5% SAM score improvement</strong>, <strong class="text-slate-800 dark:text-slate-200">20% CBO reduction</strong>, and <strong class="text-slate-800 dark:text-slate-200">90%+ unit test coverage</strong>.</p>
+        </div>
+
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex flex-col gap-3">
+          <div class="flex items-center flex-wrap gap-2">
+            <span class="font-display font-semibold text-[0.93rem] text-slate-900 dark:text-slate-100">Applied R&amp;D</span>
+            <span class="text-[0.71rem] font-medium px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800">Samsung Health · 450M+ users</span>
+          </div>
+          <p class="text-[0.85rem] text-slate-600 dark:text-slate-300 leading-[1.75]">Research on <strong class="text-slate-800 dark:text-slate-200">non-invasive blood glucose estimation</strong> from PPG signals and <strong class="text-slate-800 dark:text-slate-200">multimodal Alzheimer's risk modeling</strong> targeting Samsung Health's global platform.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PUBLICATIONS ───────────────────────────────────────────── -->
+<section id="publications" class="py-[72px] bg-slate-50 dark:bg-slate-800/50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="fade-up mb-10">
+      <span class="block text-[0.72rem] font-bold uppercase tracking-[2px] text-blue-800 dark:text-blue-400 mb-2">Academic</span>
+      <h2 class="sec-title font-display font-bold tracking-tight text-slate-900 dark:text-slate-100" style="font-size:1.9rem">Publications</h2>
+      <p class="text-[0.94rem] text-slate-500 dark:text-slate-400 mt-2.5">
+        Full list on <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener" class="text-blue-800 dark:text-blue-400 hover:underline">Google Scholar</a>.
+      </p>
+    </div>
+
+    <!-- 2025 -->
+    <div class="fade-up mb-8">
+      <div class="font-display font-bold text-[1rem] text-blue-800 dark:text-blue-400 pb-2.5 border-b-2 border-slate-200 dark:border-slate-700 mb-4">2025</div>
+      <div class="flex flex-col gap-3">
+
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">Canadian AI 2025</span>
+          <div class="flex-1 min-w-0">
+            <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">Cardioformer: Advancing AI in ECG Analysis with Multi-Granularity Patching and ResNet</p>
+            <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong>, Islam, M.S., Al Barid, S., &amp; Masum, M.</p>
+            <p class="text-[0.79rem] text-slate-400 dark:text-slate-500 italic mb-3">38th Canadian Conference on Artificial Intelligence · Calgary, Canada</p>
+            <div class="flex gap-2 flex-wrap">
+              <a href="https://github.com/KMobin555/Cardioformer" target="_blank" rel="noopener" class="ilink-github"><svg width="12" height="12" aria-hidden="true"><use href="#ico-github"/></svg> Code</a>
+              <a href="https://doi.org/10.48550/arXiv.2505.05538" target="_blank" rel="noopener" class="ilink-arxiv"><svg width="12" height="12" aria-hidden="true"><use href="#ico-arxiv"/></svg> arXiv</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">COLING 2025</span>
+          <div class="flex-1 min-w-0">
+            <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">LuxVeri at GenAI Detection Task 1: Inverse Perplexity-Weighted Ensemble for Robust Detection of AI-Generated Text across English and Multilingual Contexts</p>
+            <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong> &amp; Islam, M.S.</p>
+            <p class="text-[0.79rem] text-slate-400 dark:text-slate-500 italic mb-3">31st International Conference on Computational Linguistics · Dubai, UAE</p>
+            <div class="flex gap-2 flex-wrap">
+              <a href="https://github.com/KMobin555/Luxveri-at-GenAi-Detection-Coling-2025" target="_blank" rel="noopener" class="ilink-github"><svg width="12" height="12" aria-hidden="true"><use href="#ico-github"/></svg> Code</a>
+              <a href="https://doi.org/10.48550/arXiv.2501.11914" target="_blank" rel="noopener" class="ilink-arxiv"><svg width="12" height="12" aria-hidden="true"><use href="#ico-arxiv"/></svg> arXiv</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">COLING 2025</span>
+          <div class="flex-1 min-w-0">
+            <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">LuxVeri at GenAI Detection Task 3: Cross-Domain Detection of AI-Generated Text Using Inverse Perplexity-Weighted Ensembles</p>
+            <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong> &amp; Islam, M.S.</p>
+            <p class="text-[0.79rem] text-slate-400 dark:text-slate-500 italic mb-3">31st International Conference on Computational Linguistics · Dubai, UAE</p>
+            <div class="flex gap-2 flex-wrap">
+              <a href="https://github.com/KMobin555/Cross-Domain-MGT-Detection-at-Coling-2025" target="_blank" rel="noopener" class="ilink-github"><svg width="12" height="12" aria-hidden="true"><use href="#ico-github"/></svg> Code</a>
+              <a href="https://doi.org/10.48550/arXiv.2501.11918" target="_blank" rel="noopener" class="ilink-arxiv"><svg width="12" height="12" aria-hidden="true"><use href="#ico-arxiv"/></svg> arXiv</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 2024 -->
+    <div class="fade-up">
+      <div class="font-display font-bold text-[1rem] text-blue-800 dark:text-blue-400 pb-2.5 border-b-2 border-slate-200 dark:border-slate-700 mb-4">2024</div>
+      <div class="flex flex-col gap-3">
+
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">CinC 2024</span>
+          <div class="flex-1 min-w-0">
+            <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">Transforming ECG Images to Waveforms with UNet-LSTM and Multilabel Classification Using ResNet-LSTM: A Multimodal Approach</p>
+            <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong></p>
+            <p class="text-[0.79rem] text-slate-400 dark:text-slate-500 italic mb-3">51st Computing in Cardiology · Karlsruhe, Germany</p>
+            <div class="flex gap-2 flex-wrap">
+              <a href="https://github.com/KMobin555/George-B-Moody-Physionet-2024" target="_blank" rel="noopener" class="ilink-github"><svg width="12" height="12" aria-hidden="true"><use href="#ico-github"/></svg> Code</a>
+              <a href="https://cinc.org/archives/2024/pdf/CinC2024-393.pdf" target="_blank" rel="noopener" class="ilink-paper"><svg width="12" height="12" aria-hidden="true"><use href="#ico-paper"/></svg> Paper</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">ICCIT 2024</span>
+          <div class="flex-1 min-w-0">
+            <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">CricPose360: A Comprehensive Dataset for Real-Time Pose-Enhanced Cricket Shot Classification Using YOLOv8</p>
+            <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong>, Al Barid, S., &amp; Rahman, M.S.</p>
+            <p class="text-[0.79rem] text-slate-400 dark:text-slate-500 italic mb-3">27th International Conference on Computer and Information Technology · Bangladesh</p>
+            <div class="flex gap-2 flex-wrap">
+              <a href="https://github.com/KMobin555/CricPose360" target="_blank" rel="noopener" class="ilink-github"><svg width="12" height="12" aria-hidden="true"><use href="#ico-github"/></svg> Code</a>
+              <a href="https://doi.org/10.1109/ICCIT64611.2024.11022536" target="_blank" rel="noopener" class="ilink-doi"><svg width="12" height="12" aria-hidden="true"><use href="#ico-doi"/></svg> DOI</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── RESEARCH ───────────────────────────────────────────────── -->
+<section id="research" class="py-[72px] bg-white dark:bg-slate-900">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="fade-up mb-10">
+      <span class="block text-[0.72rem] font-bold uppercase tracking-[2px] text-blue-800 dark:text-blue-400 mb-2">Academic Work</span>
+      <h2 class="sec-title font-display font-bold tracking-tight text-slate-900 dark:text-slate-100" style="font-size:1.9rem">Research Projects</h2>
+      <p class="text-[0.94rem] text-slate-500 dark:text-slate-400 mt-2.5">Active and ongoing research in embodied AI, neuromorphic computing, and multimodal reasoning.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-[18px]">
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2">
+          <span class="badge bg-green-50 text-green-800 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800">Active · Jan 2026</span>
+          <span class="text-[0.72rem] text-slate-400 dark:text-slate-500">Neuromorphic Vision · Robotics</span>
+        </div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">Event-Based Vision &amp; ANN&ndash;SNN Hybrid Perception</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Surveyed 10+ papers (EventFly CVPR 2025, HsVT, SSM-based models) and ran experiments on N-EPIC Kitchens: voxel-grid generation, E2VID reconstruction, SSM+SNN temporal modeling. Proposing spike-native state-space models and noise-aware ANN-SNN hybrids.</p>
+      </div>
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2">
+          <span class="badge">2026</span>
+          <span class="text-[0.72rem] text-slate-400 dark:text-slate-500">Embodied AI · ICLR 2025 Replication</span>
+        </div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">GSA-VLN: General Scene Adaptation for Vision-Language Navigation</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Replicated GR-DUET (ICLR 2025) on R2R/Matterport3D. Semantic-Aware Navigation with InfoNCE contrastive loss achieved <strong class="text-slate-800 dark:text-slate-200">+1.4% SR, +1.6% SPL</strong>. Experience Replay for continual learning: <strong class="text-slate-800 dark:text-slate-200">+0.7% late-episode SR</strong>.</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
+          </a>
+        </div>
+      </div>
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2">
+          <span class="badge">2026</span>
+          <span class="text-[0.72rem] text-slate-400 dark:text-slate-500">VLM Fine-tuning · EvalAI</span>
+        </div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">MindCube Spatial Reasoning Challenge</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Fine-tuned Qwen2.5-VL-3B-Instruct via QLoRA on MindCube using cognitive-map + chain-of-thought outputs. Built a 3-run weighted ensemble combining a custom SFT model and GRPO-trained RL model with self-consistency sampling.</p>
+      </div>
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2">
+          <span class="badge bg-yellow-50 text-yellow-800 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800">Ongoing</span>
+          <span class="text-[0.72rem] text-slate-400 dark:text-slate-500">ECCV 2026 Workshop · EBMV</span>
+        </div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">Event-Based Multimodal Understanding Challenge</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">General Understanding Track at ECCV 2026 Workshop on Event-Based &amp; Multimodal Vision. Developing event-stream MLLM solutions for spatiotemporal reasoning and scene understanding.</p>
+      </div>
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2">
+          <span class="badge bg-yellow-50 text-yellow-800 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800">Ongoing</span>
+          <span class="text-[0.72rem] text-slate-400 dark:text-slate-500">LLM Agents · Tool Use</span>
+        </div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">Serialization Bottleneck in Tool-Use Agents</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Measuring how text-serialized intermediate representations (polygons, graphs, tables, ASTs) degrade compositional LLM agent pipelines. Evaluating runtime-managed object handles with deterministic property summaries as mitigation.</p>
+      </div>
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2">
+          <span class="badge bg-orange-50 text-orange-800 border-orange-200 dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800">&#x1F949; Bronze · Top 6.3%</span>
+          <span class="text-[0.72rem] text-slate-400 dark:text-slate-500">Kaggle · Computer Vision</span>
+        </div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">Image Matching 2024 — Kaggle</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Multi-model 3D reconstruction pipeline integrating COLMAP with deep feature matchers (LightGlue, SuperGlue, DKM, LoFTR).</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-notebook">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-notebook"/></svg> Notebook
+          </a>
+        </div>
+      </div>
+
+      <div class="card-tw fade-up md:col-span-2">
+        <div class="flex items-center flex-wrap gap-2">
+          <span class="badge bg-orange-50 text-orange-800 border-orange-200 dark:bg-orange-900/20 dark:text-orange-400 dark:border-orange-800">&#x1F949; Bronze · Top 5.7%</span>
+          <span class="text-[0.72rem] text-slate-400 dark:text-slate-500">Kaggle · Medical Imaging</span>
+        </div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">ISIC 2024: Skin Cancer Detection — Kaggle</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">CNN-based multimodal models combining image and tabular data with advanced augmentation techniques for melanoma classification.</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-notebook">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-notebook"/></svg> Notebook
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROJECTS ───────────────────────────────────────────────── -->
+<section id="projects" class="py-[72px] bg-slate-50 dark:bg-slate-800/50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="fade-up mb-10">
+      <span class="block text-[0.72rem] font-bold uppercase tracking-[2px] text-blue-800 dark:text-blue-400 mb-2">Open Source</span>
+      <h2 class="sec-title font-display font-bold tracking-tight text-slate-900 dark:text-slate-100" style="font-size:1.9rem">Projects</h2>
+      <p class="text-[0.94rem] text-slate-500 dark:text-slate-400 mt-2.5">Personal and open-source projects across AI, full-stack, and embedded systems.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[18px]">
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2"><span class="badge">MCP · LLM · Python</span></div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">MCP Powered Weather AI</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Conversational weather app with a custom Model Context Protocol (MCP) server and Gemini LLM. Supports standalone server and integrated client-server mode for terminal interactions.</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
+          </a>
+        </div>
+      </div>
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2"><span class="badge">LangChain · RAG · FastAPI</span></div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">AskProfessor — RAG Conversational AI</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Lightweight PDF Q&amp;A using open-source LLMs in a Retrieval-Augmented Generation framework. LangChain orchestration, ChromaDB vector store, SQLite chat history, scalable FastAPI backend.</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
+          </a>
+        </div>
+      </div>
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2"><span class="badge">QLoRA · HuggingFace · LoRA</span></div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">LLM Fine-Tuning</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Fine-tuned LLaMA 3.1, Mistral, InstructGPT, and DeepSeek AI via QLoRA with n-bit quantization and prompt engineering. Optimized with LoRA adapters and mixed-precision training.</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
+          </a>
+        </div>
+      </div>
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2"><span class="badge">Node.js · MySQL · Tailwind</span></div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">Inventory Management System</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Full-stack web app for real-time inventory, sales, and order tracking with responsive UI. Complete lifecycle — MySQL schema, Express.js server-side logic, EJS templating.</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
+          </a>
+        </div>
+      </div>
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2"><span class="badge">Node.js · REST API · MySQL</span></div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">E-commerce Website with API</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Modular e-commerce platform with RESTful APIs for product management and supplier delivery. Integrated real-time order processing and buyer/seller authentication.</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
+          </a>
+        </div>
+      </div>
+
+      <div class="card-tw fade-up">
+        <div class="flex items-center flex-wrap gap-2"><span class="badge">Java · MySQL · OOP</span></div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">Virtual Classroom Using OOP</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Google Classroom-inspired simulation built on core Java OOP principles. Features user login, assignment uploads, and submission tracking via a MySQL backend.</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
+          </a>
+        </div>
+      </div>
+
+      <div class="card-tw fade-up lg:col-span-3 sm:col-span-2">
+        <div class="flex items-center flex-wrap gap-2"><span class="badge">Arduino · C · ESP8266</span></div>
+        <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">IoT-Based Flood Detection System</h4>
+        <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">IoT flood monitoring using Arduino, ultrasonic sensors, and ESP8266 for internet-based alerts. Real-time water level detection with automated email alerts on exceeding danger thresholds.</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-demo">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-external"/></svg> Demo
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ────────────────────────────────────────────────── -->
+<section id="contact" class="py-[72px] bg-white dark:bg-slate-900">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="fade-up mb-10">
+      <span class="block text-[0.72rem] font-bold uppercase tracking-[2px] text-blue-800 dark:text-blue-400 mb-2">Connect</span>
+      <h2 class="sec-title font-display font-bold tracking-tight text-slate-900 dark:text-slate-100" style="font-size:1.9rem">Get in Touch</h2>
+      <p class="text-[0.94rem] text-slate-500 dark:text-slate-400 mt-2.5">Open to PhD &amp; MSc opportunities, research collaborations, and interesting conversations.</p>
+    </div>
+    <div class="fade-up grid grid-cols-1 md:grid-cols-[1fr_280px] gap-12 items-start">
+      <form id="contact-form" novalidate class="flex flex-col gap-3.5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div class="flex flex-col gap-1.5">
+            <label for="fname" class="text-[0.82rem] font-medium text-slate-600 dark:text-slate-300">Name</label>
+            <input id="fname" name="name" type="text" placeholder="Your name" required
+              class="px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-[0.9rem] placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-blue-800 dark:focus:border-blue-600 focus:ring-2 focus:ring-blue-800/10 dark:focus:ring-blue-600/10 transition-colors">
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label for="femail" class="text-[0.82rem] font-medium text-slate-600 dark:text-slate-300">Email</label>
+            <input id="femail" name="email" type="email" placeholder="your@email.com" required
+              class="px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-[0.9rem] placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-blue-800 dark:focus:border-blue-600 focus:ring-2 focus:ring-blue-800/10 dark:focus:ring-blue-600/10 transition-colors">
+          </div>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label for="fmsg" class="text-[0.82rem] font-medium text-slate-600 dark:text-slate-300">Message</label>
+          <textarea id="fmsg" name="message" rows="5" placeholder="Tell me about your research group, collaboration idea, or just say hi..." required
+            class="px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-[0.9rem] placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-blue-800 dark:focus:border-blue-600 focus:ring-2 focus:ring-blue-800/10 dark:focus:ring-blue-600/10 transition-colors resize-y"></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-fit">Send Message</button>
+        <p id="form-status" role="status" aria-live="polite" class="text-[0.85rem] min-h-[1.4em]"></p>
+      </form>
+      <div class="flex flex-col gap-5">
+        <h3 class="font-display font-bold text-[1rem] text-slate-900 dark:text-slate-100 pb-2.5 border-b-2 border-slate-200 dark:border-slate-700">Direct contact</h3>
+        <div class="flex flex-col gap-1">
+          <span class="text-[0.7rem] font-bold uppercase tracking-[1px] text-slate-400 dark:text-slate-500">Email</span>
+          <a href="mailto:kamrujjamanmobin123@gmail.com" class="text-[0.88rem] text-slate-600 dark:text-slate-300 hover:text-blue-800 dark:hover:text-blue-400 no-underline transition-colors">kamrujjamanmobin123@gmail.com</a>
+        </div>
+        <div class="flex flex-col gap-1">
+          <span class="text-[0.7rem] font-bold uppercase tracking-[1px] text-slate-400 dark:text-slate-500">Phone</span>
+          <a href="tel:+8801749500360" class="text-[0.88rem] text-slate-600 dark:text-slate-300 hover:text-blue-800 dark:hover:text-blue-400 no-underline transition-colors">+880-1749-500-360</a>
+        </div>
+        <div class="flex flex-col gap-1">
+          <span class="text-[0.7rem] font-bold uppercase tracking-[1px] text-slate-400 dark:text-slate-500">Location</span>
+          <span class="text-[0.88rem] text-slate-600 dark:text-slate-300">Dhaka, Bangladesh</span>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <span class="text-[0.7rem] font-bold uppercase tracking-[1px] text-slate-400 dark:text-slate-500">Profiles</span>
+          <a href="https://scholar.google.com/citations?user=0pXfjCcAAAAJ&hl=en" target="_blank" rel="noopener" class="text-[0.88rem] font-medium text-blue-800 dark:text-blue-400 hover:underline">Google Scholar</a>
+          <a href="https://www.linkedin.com/in/mdkamrujjamanmobin/" target="_blank" rel="noopener" class="text-[0.88rem] font-medium text-blue-800 dark:text-blue-400 hover:underline">LinkedIn</a>
+          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="text-[0.88rem] font-medium text-blue-800 dark:text-blue-400 hover:underline">GitHub</a>
+          <a href="https://kaggle.com/mobin555" target="_blank" rel="noopener" class="text-[0.88rem] font-medium text-blue-800 dark:text-blue-400 hover:underline">Kaggle</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ─── FOOTER ────────────────────────────────────────────────── -->
+<footer class="py-5 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between flex-wrap gap-2 text-[0.83rem] text-slate-500 dark:text-slate-400">
+    <span>&copy; <span id="year"></span> Md Kamrujjaman Mobin</span>
+    <span>Software Engineer I &nbsp;&middot;&nbsp; Samsung R&amp;D &nbsp;&middot;&nbsp; PhD / MSc Applicant</span>
+  </div>
+</footer>
+
+<!-- ─── CV MODAL ──────────────────────────────────────────────── -->
+<div id="cv-modal" class="modal fixed inset-0 z-[200] hidden items-center justify-center" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-bg absolute inset-0 bg-black/50 backdrop-blur-sm" data-close="true"></div>
+  <div class="modal-box relative z-10 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl w-[95%] max-w-[1050px] max-h-[92vh] min-w-[320px] flex flex-col overflow-hidden">
+    <div class="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 dark:border-slate-700 font-display font-semibold text-[0.9rem] text-slate-800 dark:text-slate-200">
+      <span>Curriculum Vitae — Md Kamrujjaman Mobin</span>
+      <div class="flex items-center gap-2">
+        <a href="/Kamrujjaman_Mobin_CV.pdf" download class="inline-flex items-center gap-1.5 text-[0.78rem] font-semibold px-3 py-1.5 rounded-md bg-blue-800 text-white hover:opacity-90 transition-all no-underline">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+        <button id="cv-close" aria-label="Close" class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 px-2 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors bg-transparent border-0 cursor-pointer text-base">&#x2715;</button>
+      </div>
+    </div>
+    <div class="flex-1 min-h-[70vh]">
+      <iframe src="/Kamrujjaman_Mobin_CV.pdf" title="CV" class="w-full h-full min-h-[70vh] border-0 block"></iframe>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

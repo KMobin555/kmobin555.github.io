@@ -1,75 +1,112 @@
-// Small interactions: contact form validation and year update
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ── Year ──────────────────────────────────────────────────────────────
   const yearEl = document.getElementById('year');
-  if(yearEl) yearEl.textContent = new Date().getFullYear();
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  const form = document.getElementById('contact-form');
-  const status = document.getElementById('form-status');
-  if(!form) return;
+  // ── Theme ─────────────────────────────────────────────────────────────
+  // Always default to light — never reads prefers-color-scheme
+  const root     = document.documentElement;
+  const themeBtn = document.getElementById('theme-toggle');
 
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    status.textContent = '';
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const message = form.message.value.trim();
-
-    if(!name || !email || !message){
-      status.textContent = 'Please fill out all fields.';
-      return;
+  function applyTheme(t) {
+    if (t === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
     }
-    if(!/^\S+@\S+\.\S+$/.test(email)){
-      status.textContent = 'Please provide a valid email.';
-      return;
-    }
+    root.setAttribute('data-theme', t);
+    try { localStorage.setItem('theme', t); } catch (_) {}
+  }
 
-    // Since there's no backend, show a friendly message and clear the form.
-    status.textContent = 'Thanks — your message has been noted (demo).';
-    form.reset();
+  const saved = (() => { try { return localStorage.getItem('theme'); } catch (_) { return null; } })();
+  applyTheme(saved === 'dark' ? 'dark' : 'light');
+
+  themeBtn?.addEventListener('click', () => {
+    applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   });
-});
 
-// Theme toggle and CV modal
-document.addEventListener('DOMContentLoaded', function(){
-  // Theme handling
-  const root = document.documentElement;
-  const themeToggle = document.getElementById('theme-toggle');
-  function applyTheme(theme){
-    if(theme === 'light') root.setAttribute('data-theme','light');
-    else root.removeAttribute('data-theme');
-    try{ localStorage.setItem('theme', theme); }catch(e){}
-  }
-  const saved = (function(){ try{ return localStorage.getItem('theme'); }catch(e){return null} })() || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-  applyTheme(saved);
-  if(themeToggle){
-    themeToggle.addEventListener('click', function(){
-      const isLight = root.getAttribute('data-theme') === 'light';
-      applyTheme(isLight ? 'dark' : 'light');
-    });
-  }
-
-  // CV modal
+  // ── CV Modal ───────────────────────────────────────────────────────────
   const viewBtn = document.getElementById('view-cv');
   const cvModal = document.getElementById('cv-modal');
   const cvClose = document.getElementById('cv-close');
-  if(viewBtn && cvModal){
-    function openModal(){
+
+  if (viewBtn && cvModal) {
+    const openModal = () => {
       cvModal.classList.add('open');
-      cvModal.setAttribute('aria-hidden','false');
-      // focus the close button for accessibility
-      const closeBtn = document.getElementById('cv-close');
-      if(closeBtn) closeBtn.focus();
-    }
-    function closeModal(){
+      cvModal.setAttribute('aria-hidden', 'false');
+      cvClose?.focus();
+    };
+    const closeModal = () => {
       cvModal.classList.remove('open');
-      cvModal.setAttribute('aria-hidden','true');
+      cvModal.setAttribute('aria-hidden', 'true');
       viewBtn.focus();
-    }
+    };
     viewBtn.addEventListener('click', openModal);
-    if(cvClose) cvClose.addEventListener('click', closeModal);
-    cvModal.addEventListener('click', function(e){
-      if(e.target && e.target.dataset && e.target.dataset.close === 'true') closeModal();
+    cvClose?.addEventListener('click', closeModal);
+    cvModal.addEventListener('click', e => { if (e.target === cvModal || e.target.hasAttribute('data-close')) closeModal(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && cvModal.getAttribute('aria-hidden') !== 'true') closeModal();
     });
-    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && cvModal.getAttribute('aria-hidden') === 'false') closeModal(); });
   }
+
+  // ── Contact Form ───────────────────────────────────────────────────────
+  const form   = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+
+  if (form && status) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name    = form.elements['name'].value.trim();
+      const email   = form.elements['email'].value.trim();
+      const message = form.elements['message'].value.trim();
+
+      if (!name || !email || !message) {
+        status.textContent = 'Please fill out all fields.';
+        status.style.color = '#dc2626';
+        return;
+      }
+      if (!/^\S+@\S+\.\S+$/.test(email)) {
+        status.textContent = 'Please enter a valid email address.';
+        status.style.color = '#dc2626';
+        return;
+      }
+      status.textContent = '✓ Thanks for reaching out! I\'ll get back to you soon.';
+      status.style.color = '#16a34a';
+      form.reset();
+    });
+  }
+
+  // ── Scroll Reveal (.fade-up → .visible) ───────────────────────────────
+  const fadeEls = document.querySelectorAll('.fade-up');
+  if (fadeEls.length && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.classList.add('visible');
+          obs.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    fadeEls.forEach(el => obs.observe(el));
+  } else {
+    fadeEls.forEach(el => el.classList.add('visible'));
+  }
+
+  // ── Active Nav ─────────────────────────────────────────────────────────
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nl');
+
+  if (sections.length && navLinks.length) {
+    const navObs = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          document.querySelector(`.nl[href="#${en.target.id}"]`)?.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -65% 0px' });
+    sections.forEach(s => navObs.observe(s));
+  }
+
 });
