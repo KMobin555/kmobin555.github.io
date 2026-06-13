@@ -62,7 +62,7 @@
         @apply ilink-base text-white bg-emerald-700 border border-emerald-700 hover:bg-emerald-800;
       }
       .ilink-notebook {
-        @apply ilink-base text-white bg-[#20BEFF] border border-[#20BEFF] hover:opacity-90;
+        @apply ilink-base bg-slate-100 text-blue-700 border border-slate-300 hover:bg-slate-200 hover:border-slate-400 dark:bg-slate-700 dark:text-blue-300 dark:border-slate-600 dark:hover:bg-slate-600;
       }
       .ilink-demo {
         @apply ilink-base text-white bg-violet-600 border border-violet-600 hover:bg-violet-700;
@@ -466,6 +466,17 @@
         </div>
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">Event-Based Vision &amp; ANN&ndash;SNN Hybrid Perception</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Surveyed 10+ papers (EventFly CVPR 2025, HsVT, SSM-based models) and ran experiments on N-EPIC Kitchens: voxel-grid generation, E2VID reconstruction, SSM+SNN temporal modeling. Proposing spike-native state-space models and noise-aware ANN-SNN hybrids.</p>
+        <div class="flex gap-2 mt-1 flex-wrap">
+          <a href="https://colab.research.google.com/drive/1emyE1b5GB_7S3CIRcXIFddDZL67mXcud?usp=sharing" target="_blank" rel="noopener" class="ilink-notebook">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-notebook"/></svg> Voxel-Grid Gen
+          </a>
+          <a href="https://colab.research.google.com/drive/1cDH8_pAcP7GH4X17RHktIBxec3I9SHNg?usp=sharing" target="_blank" rel="noopener" class="ilink-notebook">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-notebook"/></svg> E2VID Recon
+          </a>
+          <a href="https://colab.research.google.com/drive/1W7sjZjEocFQQKoLzYDOhA1GDb4CT5-JQ?usp=sharing" target="_blank" rel="noopener" class="ilink-notebook">
+            <svg width="13" height="13" aria-hidden="true"><use href="#ico-notebook"/></svg> SSM+SNN Modeling
+          </a>
+        </div>
       </div>
 
       <div class="card-tw fade-up">
@@ -476,7 +487,7 @@
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">GSA-VLN: General Scene Adaptation for Vision-Language Navigation</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Replicated GR-DUET (ICLR 2025) on R2R/Matterport3D. Semantic-Aware Navigation with InfoNCE contrastive loss achieved <strong class="text-slate-800 dark:text-slate-200">+1.4% SR, +1.6% SPL</strong>. Experience Replay for continual learning: <strong class="text-slate-800 dark:text-slate-200">+0.7% late-episode SR</strong>.</p>
         <div class="flex gap-2 mt-1 flex-wrap">
-          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+          <a href="https://github.com/KMobin555/GSA-VLN-Implementation" target="_blank" rel="noopener" class="ilink-github">
             <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
           </a>
         </div>
@@ -517,7 +528,7 @@
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">Image Matching 2024 — Kaggle</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Multi-model 3D reconstruction pipeline integrating COLMAP with deep feature matchers (LightGlue, SuperGlue, DKM, LoFTR).</p>
         <div class="flex gap-2 mt-1 flex-wrap">
-          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-notebook">
+          <a href="https://www.kaggle.com/code/mobin555/imc-2024-multi-models-pipeline-by-mobin" target="_blank" rel="noopener" class="ilink-notebook">
             <svg width="13" height="13" aria-hidden="true"><use href="#ico-notebook"/></svg> Notebook
           </a>
         </div>
@@ -531,7 +542,7 @@
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">ISIC 2024: Skin Cancer Detection — Kaggle</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">CNN-based multimodal models combining image and tabular data with advanced augmentation techniques for melanoma classification.</p>
         <div class="flex gap-2 mt-1 flex-wrap">
-          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-notebook">
+          <a href="https://www.kaggle.com/code/mobin555/isic-2024-magic-noise-for-lb-overfit" target="_blank" rel="noopener" class="ilink-notebook">
             <svg width="13" height="13" aria-hidden="true"><use href="#ico-notebook"/></svg> Notebook
           </a>
         </div>
@@ -556,7 +567,7 @@
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">MCP Powered Weather AI</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Conversational weather app with a custom Model Context Protocol (MCP) server and Gemini LLM. Supports standalone server and integrated client-server mode for terminal interactions.</p>
         <div class="flex gap-2 mt-1 flex-wrap">
-          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+          <a href="https://github.com/KMobin555/weather" target="_blank" rel="noopener" class="ilink-github">
             <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
           </a>
         </div>
@@ -567,7 +578,7 @@
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">AskProfessor — RAG Conversational AI</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Lightweight PDF Q&amp;A using open-source LLMs in a Retrieval-Augmented Generation framework. LangChain orchestration, ChromaDB vector store, SQLite chat history, scalable FastAPI backend.</p>
         <div class="flex gap-2 mt-1 flex-wrap">
-          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+          <a href="https://github.com/KMobin555/AskProfessor" target="_blank" rel="noopener" class="ilink-github">
             <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
           </a>
         </div>
@@ -578,7 +589,7 @@
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">LLM Fine-Tuning</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Fine-tuned LLaMA 3.1, Mistral, InstructGPT, and DeepSeek AI via QLoRA with n-bit quantization and prompt engineering. Optimized with LoRA adapters and mixed-precision training.</p>
         <div class="flex gap-2 mt-1 flex-wrap">
-          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+          <a href="https://github.com/KMobin555/LLM-fine-tuning/tree/main" target="_blank" rel="noopener" class="ilink-github">
             <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
           </a>
         </div>
@@ -589,7 +600,7 @@
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">Inventory Management System</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Full-stack web app for real-time inventory, sales, and order tracking with responsive UI. Complete lifecycle — MySQL schema, Express.js server-side logic, EJS templating.</p>
         <div class="flex gap-2 mt-1 flex-wrap">
-          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+          <a href="https://github.com/KMobin555/Inventory-Management-System" target="_blank" rel="noopener" class="ilink-github">
             <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
           </a>
         </div>
@@ -600,7 +611,7 @@
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">E-commerce Website with API</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Modular e-commerce platform with RESTful APIs for product management and supplier delivery. Integrated real-time order processing and buyer/seller authentication.</p>
         <div class="flex gap-2 mt-1 flex-wrap">
-          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+          <a href="https://github.com/KMobin555/E-commerce-Website-with-API" target="_blank" rel="noopener" class="ilink-github">
             <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
           </a>
         </div>
@@ -611,7 +622,7 @@
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">Virtual Classroom Using OOP</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">Google Classroom-inspired simulation built on core Java OOP principles. Features user login, assignment uploads, and submission tracking via a MySQL backend.</p>
         <div class="flex gap-2 mt-1 flex-wrap">
-          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-github">
+          <a href="https://github.com/KMobin555/Virtual-Classroom" target="_blank" rel="noopener" class="ilink-github">
             <svg width="13" height="13" aria-hidden="true"><use href="#ico-github"/></svg> Code
           </a>
         </div>
@@ -622,7 +633,7 @@
         <h4 class="font-display font-semibold text-[0.96rem] leading-snug text-slate-900 dark:text-slate-100">IoT-Based Flood Detection System</h4>
         <p class="text-[0.84rem] text-slate-600 dark:text-slate-300 leading-[1.7] flex-1">IoT flood monitoring using Arduino, ultrasonic sensors, and ESP8266 for internet-based alerts. Real-time water level detection with automated email alerts on exceeding danger thresholds.</p>
         <div class="flex gap-2 mt-1 flex-wrap">
-          <a href="https://github.com/KMobin555" target="_blank" rel="noopener" class="ilink-demo">
+          <a href="https://www.youtube.com/watch?v=yTYCAzw5UB4" target="_blank" rel="noopener" class="ilink-demo">
             <svg width="13" height="13" aria-hidden="true"><use href="#ico-external"/></svg> Demo
           </a>
         </div>
