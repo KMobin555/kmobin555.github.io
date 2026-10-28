@@ -88,7 +88,7 @@ strong { font-weight: 600; }
     cursor: pointer;
     transition: background-color .15s ease;
   }
-  .event-toggle:hover { background: rgba(30,64,175,.05); }
+  .event-toggle:hover { background: #f4f6fc; }  /* opaque, so events never show through */
   .dark .event-toggle { background: #1e293b; border-color: #334155; color: #60a5fa; box-shadow: 0 4px 16px rgba(0,0,0,.4); }
   .dark .event-toggle:hover { background: #0f172a; }
 

@@ -1,10 +1,12 @@
 // Event-camera scroll effect: a simulated event camera looking at a hidden,
-// repeating wall of icons from my work (ECG trace, eye, robot, brain,
-// smartwatch, cube, cricket bat, spike train, M-O-B-I-N, SUST). The wall moves
-// exactly with the page. Each sensor pixel fires an ON (blue) or OFF (red)
-// event when its log brightness changes by more than a threshold, and events
-// fade within ~125 ms, so a still page shows nothing. Icons are tilted a
-// little so their upright edges also fire under purely vertical motion.
+// repeating wall of icons from my work and life (ECG beat, neuron spike,
+// spike train, eye, robot, brain, AI chip, smartwatch, cube, cricket bat,
+// soccer ball, basketball, M-O-B-I-N, SAMSUNG, SUST). The wall
+// moves exactly with the page. Each sensor pixel fires an ON (blue) or OFF
+// (red) event when its log brightness changes by more than a threshold, and
+// events fade within ~125 ms, so a still page shows nothing. Icons are tilted
+// a little so their upright edges also fire under purely vertical motion.
+// Off by default; the floating switch turns it on.
 (() => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const wide = window.matchMedia('(min-width: 1100px)');
@@ -43,35 +45,41 @@
   const FADE      = 5 * TAU;  // events are gone after this long
   const PEAK      = 0.5;      // opacity of a fresh event
   const QUIET     = 0.3;      // strength once past the hero section
+  const CONTENT   = 640;      // half the content column width, CSS px
 
-  // ── The wall: one 256×256 tile (power of two, so coordinates wrap) ────
-  const TILE = 256, MASK = TILE - 1;
+  // ── The wall: a 128×1024 strip, two icons wide (powers of two, so
+  // coordinates wrap with a mask). Each side margin reads it starting at
+  // the content edge, the right side half a strip further down, so both
+  // margins show whole icons and never the same ones at once.
+  const TW = 128, TH = 1024, MASK_X = TW - 1, MASK_Y = TH - 1;
   const WALL = 'rgb(235, 235, 235)', INK = 'rgb(20, 20, 20)';
+  const L = 34, R = 94;       // the two icon columns
   // [x, y, angle, icon]; anything not a known icon is drawn as text
   const ITEMS = [
-    [ 32,  32, -0.12, 'eye'],
-    [ 96,  30,  0.15, 'M'],
-    [162,  36, -0.10, 'ecg'],
-    [226,  30,  0.10, 'O'],
-    [ 34,  98,  0.18, 'robot'],
-    [ 98,  96, -0.08, 'SUST'],
-    [162, 100,  0.06, 'brain'],
-    [226,  94, -0.18, 'B'],
-    [ 30, 162,  0.20, 'I'],
-    [ 96, 160, -0.14, 'watch'],
-    [160, 164,  0.12, 'N'],
-    [224, 160,  0.22, 'cube'],
-    [ 62, 224,  0.08, 'spikes'],
-    [180, 226, -0.25, 'cricket'],
+    [L,   51, -0.12, 'eye'],      [R,   51,  0.15, 'M'],
+    [L,  153, -0.08, 'ecg'],      [R,  153,  0.10, 'O'],
+    [L,  255,  0.18, 'robot'],    [R,  255, -0.18, 'B'],
+    [L,  357,  0.06, 'brain'],    [R,  357, -0.10, 'spike'],
+    [64, 459,  0.06, 'SAMSUNG'],
+    [L + 4, 561, -0.08, 'SUST'],  [R + 4, 561,  0.20, 'I'],
+    [L,  663, -0.14, 'watch'],    [R,  663,  0.12, 'ai'],
+    [L,  765,  0.10, 'soccer'],   [R,  765,  0.12, 'N'],
+    [L,  867,  0.22, 'cube'],     [R,  867,  0.08, 'spikes'],
+    [L,  969,  0.15, 'basketball'], [R, 969, -0.25, 'cricket'],
   ];
 
   const circle = (g, x, y, r) => { g.beginPath(); g.arc(x, y, r, 0, 2 * Math.PI); g.fill(); };
+  const ring = (g, x, y, r, w) => { g.lineWidth = w; g.beginPath(); g.arc(x, y, r, 0, 2 * Math.PI); g.stroke(); };
   const box = (g, x, y, w, h, r) => { g.beginPath(); g.roundRect(x, y, w, h, r); g.fill(); };
   const line = (g, pts, w) => {
     g.lineWidth = w; g.lineJoin = g.lineCap = 'round';
     g.beginPath();
     pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y)));
     g.stroke();
+  };
+  const curve = (g, x0, y0, cx, cy, x1, y1, w) => {
+    g.lineWidth = w; g.lineCap = 'round';
+    g.beginPath(); g.moveTo(x0, y0); g.quadraticCurveTo(cx, cy, x1, y1); g.stroke();
   };
 
   // Draws an icon ~40 wall px across, centred on the origin, in ink; holes
@@ -87,9 +95,19 @@
         g.fillStyle = WALL; circle(g, 0, 0, 8);
         g.fillStyle = INK;  circle(g, 0, 0, 4.5);
         break;
-      case 'ecg':          // Cardioformer, CinC, thesis
-        line(g, [[-22, 4], [-13, 4], [-10, -3], [-7, 4], [-3, 4], [0, -18],
-                 [4, 15], [7, 4], [12, 4], [15, -5], [18, 4], [22, 4]], 3.5);
+      case 'ecg':          // one full heartbeat, P-QRS-T (Cardioformer, CinC, thesis)
+        line(g, [[-23, 6], [-18, 6], [-15, 0], [-12, 6], [-8, 6], [-6, 10],
+                 [-2, -20], [2, 17], [5, 6], [9, 6], [13, -3], [17, 6], [23, 6]], 3.5);
+        break;
+      case 'spike':        // a neuron's action potential, as on an oscilloscope
+        line(g, [[-22, 7], [-9, 7], [-4, -18], [1, 15], [5, 10], [9, 7], [22, 7]], 4);
+        break;
+      case 'spikes':       // spike train: event-based vision, spiking nets
+        line(g, [[-22, 12], [22, 12]], 3);
+        line(g, [[-14, 12], [-14, -10]], 3);
+        line(g, [[-4, 12], [-4, -18]], 3);
+        line(g, [[5, 12], [5, -4]], 3);
+        line(g, [[14, 12], [14, -14]], 3);
         break;
       case 'robot':        // embodied AI / VLN
         g.fillRect(-1.5, -21, 3, 8); circle(g, 0, -21, 3);
@@ -109,6 +127,17 @@
         line(g, [[-12, -4], [-6, -1], [-9, 6]], 1.8);
         line(g, [[12, -4], [6, -1], [9, 6]], 1.8);
         break;
+      case 'ai':           // AI chip
+        for (const p of [-8, 0, 8]) {
+          g.fillRect(p - 1.5, -21, 3, 6); g.fillRect(p - 1.5, 15, 3, 6);
+          g.fillRect(-21, p - 1.5, 6, 3); g.fillRect(15, p - 1.5, 6, 3);
+        }
+        box(g, -16, -16, 32, 32, 5);
+        g.fillStyle = WALL;
+        g.font = 'bold 15px Inter, Helvetica, Arial, sans-serif';
+        g.textAlign = 'center'; g.textBaseline = 'middle';
+        g.fillText('AI', 0, 1);
+        break;
       case 'watch':        // Samsung wearables
         box(g, -7, -21, 14, 9, 2); box(g, -7, 12, 14, 9, 2);
         box(g, -13, -13, 26, 26, 7);
@@ -121,20 +150,45 @@
         line(g, [[-17, -9], [0, 1], [17, -9]], 3);
         line(g, [[0, 1], [0, 20]], 3);
         break;
-      case 'spikes':       // event-based vision, spiking nets
-        line(g, [[-22, 12], [22, 12]], 3);
-        line(g, [[-14, 12], [-14, -10]], 3);
-        line(g, [[-4, 12], [-4, -18]], 3);
-        line(g, [[5, 12], [5, -4]], 3);
-        line(g, [[14, 12], [14, -14]], 3);
-        break;
       case 'cricket':      // CricPose360
         box(g, -5, -8, 10, 28, 3);
         g.fillRect(-1.5, -21, 3, 14);
         circle(g, 14, 12, 5);
         break;
+      case 'soccer': {     // classic ball: black centre pentagon, five half
+                           // pentagons cut by the rim, seams between them
+        const pent = (cx, cy, r, rot) => {
+          g.beginPath();
+          for (let k = 0; k < 5; k++) {
+            const a = rot + k * 2 * Math.PI / 5;
+            k ? g.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a)) : g.moveTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
+          }
+          g.closePath(); g.fill();
+        };
+        const up = -Math.PI / 2;
+        g.save();
+        g.beginPath(); g.arc(0, 0, 19, 0, 2 * Math.PI); g.clip();
+        pent(0, 0, 7.5, up);
+        for (let k = 0; k < 5; k++) {
+          const a = up + Math.PI / 5 + k * 2 * Math.PI / 5;   // between centre vertices
+          pent(19 * Math.cos(a), 19 * Math.sin(a), 8, a);      // half hidden past the rim
+          const v = up + k * 2 * Math.PI / 5;                  // seam: centre vertex outwards
+          line(g, [[7.5 * Math.cos(v), 7.5 * Math.sin(v)], [16 * Math.cos(v), 16 * Math.sin(v)]], 2);
+        }
+        g.restore();
+        ring(g, 0, 0, 19, 3);
+        break;
+      }
+      case 'basketball':   // solid ball with seams cut out
+        circle(g, 0, 0, 19);
+        g.strokeStyle = WALL;
+        line(g, [[0, -19], [0, 19]], 2.5);
+        line(g, [[-19, 0], [19, 0]], 2.5);
+        curve(g, -12, -15, -4, 0, -12, 15, 2.5);
+        curve(g, 12, -15, 4, 0, 12, 15, 2.5);
+        break;
       default:             // letters and words
-        g.font = `bold ${kind.length > 1 ? 18 : 32}px Inter, Helvetica, Arial, sans-serif`;
+        g.font = `bold ${kind.length > 4 ? 15 : kind.length > 1 ? 17 : 32}px Inter, Helvetica, Arial, sans-serif`;
         g.textAlign = 'center';
         g.textBaseline = 'middle';
         g.fillText(kind, 0, 1);
@@ -142,16 +196,16 @@
   }
 
   // Log-brightness texture of the wall. Each icon is also drawn shifted by a
-  // tile in every direction so icons crossing the border wrap around.
+  // strip in every direction so icons crossing the border wrap around.
   function buildWall() {
     const c = document.createElement('canvas');
-    c.width = c.height = TILE;
+    c.width = TW; c.height = TH;
     const g = c.getContext('2d');
     g.fillStyle = WALL;
-    g.fillRect(0, 0, TILE, TILE);
+    g.fillRect(0, 0, TW, TH);
     for (const [x, y, angle, kind] of ITEMS) {
-      for (let ox = -TILE; ox <= TILE; ox += TILE) {
-        for (let oy = -TILE; oy <= TILE; oy += TILE) {
+      for (let ox = -TW; ox <= TW; ox += TW) {
+        for (let oy = -TH; oy <= TH; oy += TH) {
           g.save();
           g.translate(x + ox, y + oy);
           g.rotate(angle);
@@ -161,8 +215,8 @@
         }
       }
     }
-    const px = g.getImageData(0, 0, TILE, TILE).data;
-    const tex = new Float32Array(TILE * TILE);
+    const px = g.getImageData(0, 0, TW, TH).data;
+    const tex = new Float32Array(TW * TH);
     for (let i = 0; i < tex.length; i++) tex[i] = Math.log((px[4 * i] + 1) / 256);
     return tex;
   }
@@ -184,19 +238,20 @@
   buildPalette();
   new MutationObserver(buildPalette).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-  let W = 0, H = 0, N = 0, ref, cur, stamp, pol, image, pixels;
-  let lastScroll = window.scrollY, lastEvent = -Infinity, running = false, enabled = true;
+  let W = 0, H = 0, N = 0, ref, cur, stamp, pol, image, pixels, colX, colY;
+  let lastScroll = window.scrollY, lastEvent = -Infinity, running = false, enabled = false;
 
   // Log brightness each sensor pixel sees at the current scroll position,
-  // sampling the wall bilinearly (same sub-pixel weights for every pixel).
+  // sampling the wall with vertical linear interpolation (same sub-pixel
+  // weight for every pixel).
   function sense(out) {
     const oy = window.scrollY / CELL;
     const iy = Math.floor(oy), fy = oy - iy;
     for (let y = 0, i = 0; y < H; y++) {
-      const r0 = ((y + iy) & MASK) * TILE, r1 = ((y + iy + 1) & MASK) * TILE;
       for (let x = 0; x < W; x++, i++) {
-        const c = x & MASK;
-        out[i] = (1 - fy) * tex[r0 + c] + fy * tex[r1 + c];
+        const r0 = ((y + iy + colY[x]) & MASK_Y) * TW;
+        const r1 = ((y + iy + colY[x] + 1) & MASK_Y) * TW;
+        out[i] = (1 - fy) * tex[r0 + colX[x]] + fy * tex[r1 + colX[x]];
       }
     }
   }
@@ -213,13 +268,23 @@
   // Size the sensor to the window. Only grow in height, so a collapsing
   // mobile address bar doesn't reset it mid-scroll.
   function setup() {
-    const w = Math.ceil(document.documentElement.clientWidth / CELL);
+    const cw = document.documentElement.clientWidth;
+    const w = Math.ceil(cw / CELL);
     const h = Math.ceil(window.innerHeight / CELL);
     if (w === W && h <= H) return;
     W = w; H = h; N = W * H;
     canvas.width = W; canvas.height = H;
     canvas.style.width = W * CELL + 'px';
     canvas.style.height = H * CELL + 'px';
+    // Wall column for each sensor column: the left margin ends at the
+    // strip's right edge, the right margin starts at its left edge.
+    const mid = cw / 2 / CELL;
+    const edgeL = Math.round((cw / 2 - CONTENT) / CELL), edgeR = Math.round((cw / 2 + CONTENT) / CELL);
+    colX = new Int32Array(W); colY = new Int32Array(W);
+    for (let x = 0; x < W; x++) {
+      colX[x] = (x < mid ? x - edgeL : x - edgeR) & MASK_X;
+      colY[x] = x < mid ? 0 : TH / 2;
+    }
     ref = new Float32Array(N); cur = new Float32Array(N);
     stamp = new Float64Array(N).fill(-Infinity); pol = new Uint8Array(N);
     image = ctx.createImageData(W, H);
@@ -286,7 +351,7 @@
     setEnabled(!enabled);
     try { localStorage.setItem('events', enabled ? 'on' : 'off'); } catch (e) {}
   });
-  try { enabled = localStorage.getItem('events') !== 'off'; } catch (e) {}
+  try { enabled = localStorage.getItem('events') === 'on'; } catch (e) {}
   setup();
   setEnabled(enabled);
 
