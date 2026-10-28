@@ -57,6 +57,92 @@ strong { font-weight: 600; }
 /* ── CV Modal show/hide ───────────────────────────────────── */
 .modal[aria-hidden="false"], .modal.open { display: flex !important; }
 
+/* ── Event-camera scroll effect (event-camera.js) ─────────── */
+/* Sits above the content but below the sticky header; full strength in the
+   side margins left and right of the 1280px content column, barely visible
+   over the content itself. */
+.event-canvas {
+  position: fixed; top: 0; left: 0; z-index: 40;
+  pointer-events: none;
+  image-rendering: pixelated;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(50% - 640px), rgba(0,0,0,.1) calc(50% - 590px), rgba(0,0,0,.1) calc(50% + 590px), #000 calc(50% + 640px));
+          mask-image: linear-gradient(to right, #000 calc(50% - 640px), rgba(0,0,0,.1) calc(50% - 590px), rgba(0,0,0,.1) calc(50% + 590px), #000 calc(50% + 640px));
+}
+.event-canvas, .event-toggle, .event-bubble { display: none; }
+
+@media (min-width: 1100px) {
+  .event-canvas { display: block; }
+  .events-off .event-canvas, .events-off .event-bubble { display: none; }
+
+  /* Floating on/off switch. On wide screens it sits just right of the
+     1280px content column, level with the header; otherwise top right,
+     below the 60px sticky header. */
+  .event-toggle {
+    position: fixed; right: 20px; top: 72px; z-index: 60;
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px 9px 18px;
+    border: 1px solid rgba(30,64,175,.2); border-radius: 999px;
+    background: #fff; color: #1e40af;
+    font-size: 15px; font-weight: 600;
+    box-shadow: 0 4px 16px rgba(30,64,175,.22);
+    cursor: pointer;
+    transition: background-color .15s ease;
+  }
+  .event-toggle:hover { background: rgba(30,64,175,.05); }
+  .dark .event-toggle { background: #1e293b; border-color: #334155; color: #60a5fa; box-shadow: 0 4px 16px rgba(0,0,0,.4); }
+  .dark .event-toggle:hover { background: #0f172a; }
+
+  .event-switch {
+    position: relative; width: 44px; height: 24px; border-radius: 12px;
+    background: #1e40af; transition: background-color .2s ease;
+  }
+  .event-switch::after {
+    content: ''; position: absolute; top: 3px; left: 23px;
+    width: 18px; height: 18px; border-radius: 50%; background: #fff;
+    transition: left .2s ease;
+  }
+  .dark .event-switch { background: #3b82f6; }
+  .events-off .event-switch { background: #cbd5e1; }
+  .dark.events-off .event-switch { background: #475569; }
+  .events-off .event-switch::after { left: 3px; }
+
+  /* Hint bubble to the right of the photo, with blue/red offset edges as if
+     it were moving past an event camera */
+  .photo-wrap { position: relative; }
+  /* Comic speech bubble beside the photo (the links fill the space under
+     it), in Bangers, with blue/red offset edges as if moving past an event
+     camera */
+  .event-bubble {
+    display: block; position: absolute; top: 10%; left: calc(100% - 30px);
+    padding: 10px 17px 7px;
+    border: 3px solid #1e40af; border-radius: 50%;
+    background: #fff; color: #1e40af;
+    font-family: 'Bangers', system-ui, sans-serif;
+    font-size: 19px; font-weight: 400; letter-spacing: 1.2px; line-height: 1.15;
+    text-align: center; white-space: nowrap;
+    text-shadow: 1.5px 1px 0 rgba(214,69,65,.55);
+    transform: rotate(-4deg);
+    box-shadow: -5px -3px 0 rgba(30,64,175,.45), 5px 4px 0 rgba(214,69,65,.75);
+    cursor: help;
+  }
+  /* Tail pointing left at the photo: a blue triangle with a white one inside */
+  .event-bubble::before, .event-bubble::after {
+    content: ''; position: absolute; top: 58%;
+    border-style: solid; border-color: transparent;
+  }
+  .event-bubble::before { left: -18px; margin-top: -9px; border-width: 9px 18px 9px 0; border-right-color: #1e40af; }
+  .event-bubble::after  { left: -11px; margin-top: -6px; border-width: 6px 12px 6px 0; border-right-color: #fff; }
+  .dark .event-bubble { background: #1e293b; color: #60a5fa; border-color: #60a5fa; box-shadow: -5px -3px 0 rgba(96,165,250,.45), 5px 4px 0 rgba(248,113,113,.75); }
+  .dark .event-bubble::before { border-right-color: #60a5fa; }
+  .dark .event-bubble::after  { border-right-color: #1e293b; }
+}
+
+/* Room in the right margin (content column edge at 50% + 640px, ~134px
+   toggle, 16px clearance): float the switch just right of the content */
+@media (min-width: 1620px) {
+  .event-toggle { right: auto; left: calc(50% + 652px); }
+}
+
 /* ── Focus ring ───────────────────────────────────────────── */
 a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
   outline: 2px solid #1e40af; outline-offset: 3px; border-radius: 3px;
