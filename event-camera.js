@@ -43,30 +43,57 @@
   const THRESHOLD = 0.4;      // contrast threshold, in log brightness
   const TAU       = 25;       // event fade time constant, ms
   const FADE      = 5 * TAU;  // events are gone after this long
-  const PEAK      = 0.5;      // opacity of a fresh event
+  const PEAK      = 0.3;      // opacity of a fresh event
   const QUIET     = 0.3;      // strength once past the hero section
   const CONTENT   = 640;      // half the content column width, CSS px
 
-  // ── The wall: a 128×1024 strip, two icons wide (powers of two, so
-  // coordinates wrap with a mask). Each side margin reads it starting at
-  // the content edge, the right side half a strip further down, so both
-  // margins show whole icons and never the same ones at once.
+  // ── The wall: 128×1024 strips, two icons wide (powers of two, so
+  // coordinates wrap with a mask). Each side margin reads the wall starting
+  // at the content edge. There are four variants of the strip: each rolls
+  // the rows by a different amount (so a row never holds the same item in
+  // two variants), mirrors the pairs on odd variants, and gives every icon
+  // its own random tilt and jitter. Neighbouring strips across the screen
+  // always use different variants, so no item repeats along a row.
   const TW = 128, TH = 1024, MASK_X = TW - 1, MASK_Y = TH - 1;
+  const VARIANTS = 4, ROLL = 3;  // row roll per variant: 0, 3, 6, 9 of 10
   const WALL = 'rgb(235, 235, 235)', INK = 'rgb(20, 20, 20)';
-  const L = 34, R = 94;       // the two icon columns
-  // [x, y, angle, icon]; anything not a known icon is drawn as text
-  const ITEMS = [
-    [L,   51, -0.12, 'eye'],      [R,   51,  0.15, 'M'],
-    [L,  153, -0.08, 'ecg'],      [R,  153,  0.10, 'O'],
-    [L,  255,  0.18, 'robot'],    [R,  255, -0.18, 'B'],
-    [L,  357,  0.06, 'brain'],    [R,  357, -0.10, 'spike'],
-    [64, 459,  0.06, 'SAMSUNG'],
-    [L + 4, 561, -0.08, 'SUST'],  [R + 4, 561,  0.20, 'I'],
-    [L,  663, -0.14, 'watch'],    [R,  663,  0.12, 'ai'],
-    [L,  765,  0.10, 'soccer'],   [R,  765,  0.12, 'N'],
-    [L,  867,  0.22, 'cube'],     [R,  867,  0.08, 'spikes'],
-    [L,  969,  0.15, 'basketball'], [R, 969, -0.25, 'cricket'],
+  const L = 34, R = 94;          // the two icon columns
+  // Rows of the strip; anything not a known icon is drawn as text
+  const ROWS = [
+    ['eye', 'M'], ['ecg', 'O'], ['robot', 'B'], ['brain', 'spike'], ['SAMSUNG'],
+    ['SUST', 'I'], ['watch', 'ai'], ['soccer', 'N'], ['cube', 'spikes'], ['basketball', 'cricket'],
   ];
+  const ROW_H = TH / ROWS.length;
+
+  // Small seeded PRNG (mulberry32), so the wall is the same on every visit
+  function rng(seed) {
+    return () => {
+      seed = (seed + 0x6D2B79F5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // [x, y, angle, icon] for every item of strip variant v
+  function layout(v) {
+    const rand = rng(1234 + 97 * v), spread = (a) => (rand() * 2 - 1) * a;
+    const items = [];
+    for (let r = 0; r < ROWS.length; r++) {
+      const row = ROWS[(r + ROLL * v) % ROWS.length];
+      const y = ROW_H * (r + 0.5);
+      if (row.length === 1) {
+        items.push([64 + spread(4), y + spread(8), spread(0.3), row[0]]);
+      } else {
+        const [a, b] = v % 2 ? [row[1], row[0]] : row;
+        for (const [x, kind] of [[L, a], [R, b]]) {
+          const text = kind.length <= 4 && kind === kind.toUpperCase();
+          items.push([x + spread(5), y + spread(10), spread(text ? 0.4 : 0.55), kind]);
+        }
+      }
+    }
+    return items;
+  }
 
   const circle = (g, x, y, r) => { g.beginPath(); g.arc(x, y, r, 0, 2 * Math.PI); g.fill(); };
   const ring = (g, x, y, r, w) => { g.lineWidth = w; g.beginPath(); g.arc(x, y, r, 0, 2 * Math.PI); g.stroke(); };
@@ -195,15 +222,18 @@
     }
   }
 
-  // Log-brightness texture of the wall. Each icon is also drawn shifted by a
-  // strip in every direction so icons crossing the border wrap around.
-  function buildWall() {
+  // Log-brightness texture of all strip variants, stacked one after another.
+  // Each icon is also drawn shifted by a strip in every direction so icons
+  // crossing the border wrap around.
+  const STRIP = TW * TH;
+  const tex = new Float32Array(VARIANTS * STRIP);
+  for (let v = 0; v < VARIANTS; v++) {
     const c = document.createElement('canvas');
     c.width = TW; c.height = TH;
     const g = c.getContext('2d');
     g.fillStyle = WALL;
     g.fillRect(0, 0, TW, TH);
-    for (const [x, y, angle, kind] of ITEMS) {
+    for (const [x, y, angle, kind] of layout(v)) {
       for (let ox = -TW; ox <= TW; ox += TW) {
         for (let oy = -TH; oy <= TH; oy += TH) {
           g.save();
@@ -216,11 +246,8 @@
       }
     }
     const px = g.getImageData(0, 0, TW, TH).data;
-    const tex = new Float32Array(TW * TH);
-    for (let i = 0; i < tex.length; i++) tex[i] = Math.log((px[4 * i] + 1) / 256);
-    return tex;
+    for (let i = 0; i < STRIP; i++) tex[v * STRIP + i] = Math.log((px[4 * i] + 1) / 256);
   }
-  const tex = buildWall();
 
   // ── Event colours (site blue / red, brighter in dark mode) ────────────
   const rgba = (c, a) => ((Math.round(a * 255) << 24) | (c[2] << 16) | (c[1] << 8) | c[0]) >>> 0;
@@ -238,7 +265,7 @@
   buildPalette();
   new MutationObserver(buildPalette).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-  let W = 0, H = 0, N = 0, ref, cur, stamp, pol, image, pixels, colX, colY;
+  let W = 0, H = 0, N = 0, ref, cur, stamp, pol, image, pixels, colBase;
   let lastScroll = window.scrollY, lastEvent = -Infinity, running = false, enabled = false;
 
   // Log brightness each sensor pixel sees at the current scroll position,
@@ -248,10 +275,9 @@
     const oy = window.scrollY / CELL;
     const iy = Math.floor(oy), fy = oy - iy;
     for (let y = 0, i = 0; y < H; y++) {
+      const r0 = ((y + iy) & MASK_Y) * TW, r1 = ((y + iy + 1) & MASK_Y) * TW;
       for (let x = 0; x < W; x++, i++) {
-        const r0 = ((y + iy + colY[x]) & MASK_Y) * TW;
-        const r1 = ((y + iy + colY[x] + 1) & MASK_Y) * TW;
-        out[i] = (1 - fy) * tex[r0 + colX[x]] + fy * tex[r1 + colX[x]];
+        out[i] = (1 - fy) * tex[colBase[x] + r0] + fy * tex[colBase[x] + r1];
       }
     }
   }
@@ -276,14 +302,17 @@
     canvas.width = W; canvas.height = H;
     canvas.style.width = W * CELL + 'px';
     canvas.style.height = H * CELL + 'px';
-    // Wall column for each sensor column: the left margin ends at the
-    // strip's right edge, the right margin starts at its left edge.
+    // Strip and column for each sensor column: strips are counted outwards
+    // from the content edges (the left margin ends at a strip's right edge,
+    // the right margin starts at a strip's left edge), and consecutive
+    // strips cycle through the variants, the right side offset by two.
     const mid = cw / 2 / CELL;
     const edgeL = Math.round((cw / 2 - CONTENT) / CELL), edgeR = Math.round((cw / 2 + CONTENT) / CELL);
-    colX = new Int32Array(W); colY = new Int32Array(W);
+    colBase = new Int32Array(W);
     for (let x = 0; x < W; x++) {
-      colX[x] = (x < mid ? x - edgeL : x - edgeR) & MASK_X;
-      colY[x] = x < mid ? 0 : TH / 2;
+      const d = x < mid ? x - edgeL : x - edgeR;
+      const k = Math.floor(d / TW) + (x < mid ? 0 : 2);
+      colBase[x] = (((k % VARIANTS) + VARIANTS) % VARIANTS) * STRIP + (d & MASK_X);
     }
     ref = new Float32Array(N); cur = new Float32Array(N);
     stamp = new Float64Array(N).fill(-Infinity); pol = new Uint8Array(N);
