@@ -33,6 +33,10 @@
       .nl {
         @apply text-sm font-medium text-slate-500 dark:text-slate-400 px-3 py-1.5 rounded-md hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-150 no-underline;
       }
+      /* Mobile menu links: same as .nl, but full width and easier to tap */
+      .ml {
+        @apply block text-[0.95rem] px-3 py-2.5;
+      }
       .badge {
         @apply inline-block px-2.5 py-[3px] rounded text-[0.7rem] font-semibold tracking-wide bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800;
       }
@@ -69,7 +73,7 @@
       }
     }
   </style>
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=9">
   <link rel="icon" href="assets/icons/mobin_favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/icons/cropped_circle_image.png" type="image/png">
 </head>
@@ -110,7 +114,7 @@
 <!-- ─── NAV ───────────────────────────────────────────────────── -->
 <header class="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 transition-colors duration-200">
   <div class="max-w-7xl mx-auto px-6 flex items-center gap-3 h-[60px]">
-    <a href="#hero" class="font-display font-bold text-[0.95rem] text-slate-900 dark:text-slate-100 hover:text-blue-800 dark:hover:text-blue-400 no-underline shrink-0 transition-colors">Md Kamrujjaman Mobin</a>
+    <a href="#hero" class="font-display font-bold text-[0.95rem] max-[359px]:text-[0.84rem] text-slate-900 dark:text-slate-100 hover:text-blue-800 dark:hover:text-blue-400 no-underline min-w-0 truncate transition-colors">Md Kamrujjaman Mobin</a>
     <nav class="flex-1 flex items-center justify-center gap-0.5 max-lg:hidden">
       <a href="#about"        class="nl">About</a>
       <a href="#experience"   class="nl">Experience</a>
@@ -126,8 +130,25 @@
         <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
       <button id="view-cv" class="btn-primary max-sm:hidden">CV</button>
+      <button id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"
+        class="lg:hidden w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-150 bg-transparent cursor-pointer">
+        <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg id="icon-close" class="hidden" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
     </div>
   </div>
+  <!-- Mobile / tablet menu (below 1024px) -->
+  <nav id="mobile-menu" class="lg:hidden hidden border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-0.5">
+      <a href="#about"        class="nl ml">About</a>
+      <a href="#experience"   class="nl ml">Experience</a>
+      <a href="#publications" class="nl ml">Publications</a>
+      <a href="#research"     class="nl ml">Research</a>
+      <a href="#projects"     class="nl ml">Projects</a>
+      <a href="#contact"      class="nl ml">Contact</a>
+      <button id="view-cv-mobile" class="btn-primary sm:hidden mt-2 w-full">View CV</button>
+    </div>
+  </nav>
 </header>
 
 <main>
@@ -135,7 +156,7 @@
 <!-- ─── HERO ──────────────────────────────────────────────────── -->
 <section id="hero" class="py-[72px] md:py-20 bg-white dark:bg-slate-900">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="grid grid-cols-1 md:grid-cols-[256px_1fr] gap-9 md:gap-40 items-center">
+    <div class="grid grid-cols-1 md:grid-cols-[256px_1fr] gap-9 md:gap-12 lg:gap-40 items-center">
 
       <div class="flex flex-col items-center gap-5">
         <div class="photo-wrap rounded-2xl p-1 bg-gradient-to-br from-blue-800 to-sky-400 shadow-[0_0_48px_rgba(30,64,175,.18)]">
@@ -158,7 +179,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col gap-4 md:gap-5">
+      <div class="flex flex-col gap-4 md:gap-5 max-md:order-first">
         <div class="hero-badge-anim flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-400 text-[0.78rem] font-semibold tracking-wide w-fit">
           <span class="pulse-dot"></span>
           Software Engineer I &nbsp;@&nbsp; Samsung R&amp;D &nbsp;·&nbsp; B.Sc. Computer Science &amp; Engineering, SUST
@@ -184,16 +205,16 @@
             +880-1749-500-360
           </a>
         </div>
-        <div class="hero-stats-anim flex border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden w-fit">
-          <div class="flex flex-col items-center px-6 py-3 border-r border-slate-200 dark:border-slate-700">
+        <div class="hero-stats-anim flex border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden w-fit max-sm:w-full">
+          <div class="flex flex-col items-center px-6 max-sm:px-2 max-sm:flex-1 py-3 border-r border-slate-200 dark:border-slate-700">
             <span class="font-display font-bold text-[1.4rem] text-blue-800 dark:text-blue-400">5</span>
             <span class="text-[0.7rem] text-slate-500 dark:text-slate-400 mt-0.5 whitespace-nowrap">Publications</span>
           </div>
-          <div class="flex flex-col items-center px-6 py-3 border-r border-slate-200 dark:border-slate-700">
+          <div class="flex flex-col items-center px-6 max-sm:px-2 max-sm:flex-1 py-3 border-r border-slate-200 dark:border-slate-700">
             <span class="font-display font-bold text-[1.4rem] text-blue-800 dark:text-blue-400">3.83</span>
             <span class="text-[0.7rem] text-slate-500 dark:text-slate-400 mt-0.5 whitespace-nowrap">GPA / 4.00</span>
           </div>
-          <div class="flex flex-col items-center px-6 py-3">
+          <div class="flex flex-col items-center px-6 max-sm:px-2 max-sm:flex-1 py-3">
             <span class="font-display font-bold text-[1.4rem] text-blue-800 dark:text-blue-400">2 &#x1F949;</span>
             <span class="text-[0.7rem] text-slate-500 dark:text-slate-400 mt-0.5 whitespace-nowrap">Kaggle Medals</span>
           </div>
@@ -273,31 +294,31 @@
       <div class="pop-card fade-up md:col-span-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-[0_1px_4px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200">
         <h3 class="text-[0.72rem] font-bold uppercase tracking-[1.2px] text-slate-400 dark:text-slate-500 mb-4">Technical Skills</h3>
         <div class="flex flex-col gap-3">
-          <div class="flex items-start gap-4">
+          <div class="flex max-sm:flex-col items-start gap-1.5 sm:gap-4">
             <span class="text-[0.72rem] font-bold uppercase tracking-[0.8px] text-slate-400 dark:text-slate-500 min-w-[84px] shrink-0 pt-1">Languages</span>
             <div class="flex flex-wrap gap-1.5">
               <span class="skill-chip">Python</span><span class="skill-chip">C++</span><span class="skill-chip">Java</span><span class="skill-chip">Kotlin</span><span class="skill-chip">JavaScript</span><span class="skill-chip">C</span>
             </div>
           </div>
-          <div class="flex items-start gap-4">
+          <div class="flex max-sm:flex-col items-start gap-1.5 sm:gap-4">
             <span class="text-[0.72rem] font-bold uppercase tracking-[0.8px] text-slate-400 dark:text-slate-500 min-w-[84px] shrink-0 pt-1">ML / AI</span>
             <div class="flex flex-wrap gap-1.5">
               <span class="skill-chip">PyTorch</span><span class="skill-chip">HuggingFace</span><span class="skill-chip">Scikit-learn</span><span class="skill-chip">OpenCV</span><span class="skill-chip">NumPy</span><span class="skill-chip">Pandas</span>
             </div>
           </div>
-          <div class="flex items-start gap-4">
+          <div class="flex max-sm:flex-col items-start gap-1.5 sm:gap-4">
             <span class="text-[0.72rem] font-bold uppercase tracking-[0.8px] text-slate-400 dark:text-slate-500 min-w-[84px] shrink-0 pt-1">LLM / VLM</span>
             <div class="flex flex-wrap gap-1.5">
               <span class="skill-chip">QLoRA Fine-tuning</span><span class="skill-chip">SFT / GRPO</span><span class="skill-chip">Self-Consistency Ensembling</span><span class="skill-chip">Batch Inference</span><span class="skill-chip">LiteRT-LM</span>
             </div>
           </div>
-          <div class="flex items-start gap-4">
+          <div class="flex max-sm:flex-col items-start gap-1.5 sm:gap-4">
             <span class="text-[0.72rem] font-bold uppercase tracking-[0.8px] text-slate-400 dark:text-slate-500 min-w-[84px] shrink-0 pt-1">Research</span>
             <div class="flex flex-wrap gap-1.5">
               <span class="skill-chip">Computer Vision</span><span class="skill-chip">NLP</span><span class="skill-chip">Multimodal</span><span class="skill-chip">Embodied AI</span><span class="skill-chip">VLA</span><span class="skill-chip">Event-Based Vision</span><span class="skill-chip">Signal Processing</span>
             </div>
           </div>
-          <div class="flex items-start gap-4">
+          <div class="flex max-sm:flex-col items-start gap-1.5 sm:gap-4">
             <span class="text-[0.72rem] font-bold uppercase tracking-[0.8px] text-slate-400 dark:text-slate-500 min-w-[84px] shrink-0 pt-1">Academic</span>
             <div class="flex flex-wrap gap-1.5">
               <span class="skill-chip">Research Writing</span><span class="skill-chip">Experimental Design</span><span class="skill-chip">Scientific Presentation</span><span class="skill-chip">Peer Review</span>
@@ -392,8 +413,8 @@
       <div class="font-display font-bold text-[1rem] text-blue-800 dark:text-blue-400 pb-2.5 border-b-2 border-slate-200 dark:border-slate-700 mb-4">Technical Reports · 2026</div>
       <div class="flex flex-col gap-3">
 
-        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
-          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">EBMV @ ECCV 2026</span>
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex max-sm:flex-col gap-3 sm:gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] max-sm:min-w-0 max-sm:max-w-none px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">EBMV @ ECCV 2026</span>
           <div class="flex-1 min-w-0">
             <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">Training-Free Representation and Prompting for Event-Based Multimodal Understanding</p>
             <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong>, Shamil, M.S., &amp; Arefeen, M.A.</p>
@@ -414,8 +435,8 @@
       <div class="font-display font-bold text-[1rem] text-blue-800 dark:text-blue-400 pb-2.5 border-b-2 border-slate-200 dark:border-slate-700 mb-4">2025</div>
       <div class="flex flex-col gap-3">
 
-        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
-          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">Canadian AI 2025</span>
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex max-sm:flex-col gap-3 sm:gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] max-sm:min-w-0 max-sm:max-w-none px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">Canadian AI 2025</span>
           <div class="flex-1 min-w-0">
             <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">Cardioformer: Advancing AI in ECG Analysis with Multi-Granularity Patching and ResNet</p>
             <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong>, Islam, M.S., Al Barid, S., &amp; Masum, M.</p>
@@ -427,8 +448,8 @@
           </div>
         </div>
 
-        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
-          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">COLING 2025</span>
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex max-sm:flex-col gap-3 sm:gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] max-sm:min-w-0 max-sm:max-w-none px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">COLING 2025</span>
           <div class="flex-1 min-w-0">
             <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">LuxVeri at GenAI Detection Task 1: Inverse Perplexity-Weighted Ensemble for Robust Detection of AI-Generated Text across English and Multilingual Contexts</p>
             <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong> &amp; Islam, M.S.</p>
@@ -440,8 +461,8 @@
           </div>
         </div>
 
-        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
-          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">COLING 2025</span>
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex max-sm:flex-col gap-3 sm:gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] max-sm:min-w-0 max-sm:max-w-none px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">COLING 2025</span>
           <div class="flex-1 min-w-0">
             <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">LuxVeri at GenAI Detection Task 3: Cross-Domain Detection of AI-Generated Text Using Inverse Perplexity-Weighted Ensembles</p>
             <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong> &amp; Islam, M.S.</p>
@@ -461,8 +482,8 @@
       <div class="font-display font-bold text-[1rem] text-blue-800 dark:text-blue-400 pb-2.5 border-b-2 border-slate-200 dark:border-slate-700 mb-4">2024</div>
       <div class="flex flex-col gap-3">
 
-        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
-          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">CinC 2024</span>
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex max-sm:flex-col gap-3 sm:gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] max-sm:min-w-0 max-sm:max-w-none px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">CinC 2024</span>
           <div class="flex-1 min-w-0">
             <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">Transforming ECG Images to Waveforms with UNet-LSTM and Multilabel Classification Using ResNet-LSTM: A Multimodal Approach</p>
             <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong></p>
@@ -474,8 +495,8 @@
           </div>
         </div>
 
-        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex gap-5 items-start">
-          <span class="shrink-0 min-w-[106px] max-w-[106px] px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">ICCIT 2024</span>
+        <div class="pop-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-[0_1px_4px_rgba(0,0,0,.07),0_4px_16px_rgba(0,0,0,.06)] hover:-translate-y-1 hover:border-blue-800 dark:hover:border-blue-600 hover:shadow-[0_4px_8px_rgba(0,0,0,.08),0_12px_32px_rgba(0,0,0,.1)] transition-all duration-200 flex max-sm:flex-col gap-3 sm:gap-5 items-start">
+          <span class="shrink-0 min-w-[106px] max-w-[106px] max-sm:min-w-0 max-sm:max-w-none px-2 py-1.5 rounded text-center bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[0.69rem] font-bold tracking-wide leading-snug mt-0.5">ICCIT 2024</span>
           <div class="flex-1 min-w-0">
             <p class="text-[0.92rem] font-medium leading-snug mb-1.5 text-slate-900 dark:text-slate-100">CricPose360: A Comprehensive Dataset for Real-Time Pose-Enhanced Cricket Shot Classification Using YOLOv8</p>
             <p class="text-[0.82rem] text-slate-500 dark:text-slate-400 mb-0.5"><strong class="text-slate-600 dark:text-slate-300">Mobin, M.K.</strong>, Al Barid, S., &amp; Rahman, M.S.</p>
@@ -789,7 +810,7 @@
   </div>
 </div>
 
-<script src="script.js?v=2"></script>
-<script src="event-camera.js?v=18"></script>
+<script src="script.js?v=4"></script>
+<script src="event-camera.js?v=20"></script>
 </body>
 </html>

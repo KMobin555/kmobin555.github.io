@@ -15,13 +15,48 @@ document.addEventListener('DOMContentLoaded', function () {
     iconMoon.classList.toggle('hidden', isDark);
   });
 
+  // ── Mobile menu (below 1024px) ─────────────────────────────────────────
+  const menuBtn   = document.getElementById('menu-toggle');
+  const menu      = document.getElementById('mobile-menu');
+  const iconMenu  = document.getElementById('icon-menu');
+  const iconClose = document.getElementById('icon-close');
+
+  if (menuBtn && menu) {
+    const setMenu = open => {
+      menu.classList.toggle('hidden', !open);
+      document.documentElement.classList.toggle('menu-open', open);   // hides the floating Events switch
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      iconMenu.classList.toggle('hidden', open);
+      iconClose.classList.toggle('hidden', !open);
+    };
+    const isOpen = () => menuBtn.getAttribute('aria-expanded') === 'true';
+    menuBtn.addEventListener('click', () => setMenu(!isOpen()));
+    menu.addEventListener('click', e => { if (e.target.closest('a, button')) setMenu(false); });
+    document.addEventListener('click', e => {
+      if (isOpen() && !menu.contains(e.target) && !menuBtn.contains(e.target)) setMenu(false);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && isOpen()) { setMenu(false); menuBtn.focus(); }
+    });
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+  }
+
   // ── CV Modal ───────────────────────────────────────────────────────────
   const viewBtn = document.getElementById('view-cv');
+  const viewBtnMobile = document.getElementById('view-cv-mobile');
   const cvModal = document.getElementById('cv-modal');
   const cvClose = document.getElementById('cv-close');
 
   if (viewBtn && cvModal) {
-    const openModal = () => {
+    // Phones can't show a PDF inside the modal's iframe (blank on Android,
+    // first page only on iOS), so small screens open it in a new tab instead.
+    const small = window.matchMedia('(max-width: 767px)');
+    const cvUrl = cvModal.querySelector('a[download]')?.getAttribute('href');
+    let opener = viewBtn;
+    const openModal = e => {
+      opener = e?.currentTarget || viewBtn;
+      if (small.matches && cvUrl) { window.open(cvUrl, '_blank', 'noopener'); return; }
       cvModal.classList.add('open');
       cvModal.setAttribute('aria-hidden', 'false');
       cvClose?.focus();
@@ -29,9 +64,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeModal = () => {
       cvModal.classList.remove('open');
       cvModal.setAttribute('aria-hidden', 'true');
-      viewBtn.focus();
+      opener.focus();
     };
     viewBtn.addEventListener('click', openModal);
+    viewBtnMobile?.addEventListener('click', openModal);
     cvClose?.addEventListener('click', closeModal);
     cvModal.addEventListener('click', e => {
       if (e.target === cvModal || e.target.hasAttribute('data-close')) closeModal();

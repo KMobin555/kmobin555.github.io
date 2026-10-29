@@ -9,6 +9,8 @@
 // Off by default; the floating switch turns it on.
 (() => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // Wide screens show events in the side margins; narrower ones have no
+  // margins, so events cover the whole screen at a lower strength.
   const wide = window.matchMedia('(min-width: 1100px)');
 
   const canvas = document.createElement('canvas');
@@ -45,6 +47,8 @@
   const FADE      = 5 * TAU;  // events are gone after this long
   const PEAK      = 0.3;      // opacity of a fresh event
   const QUIET     = 0.3;      // strength once past the hero section
+  const NARROW    = 0.35;     // narrow screens: strength in the hero (events cover the content)
+  const NARROW_QUIET = 0.5;   //   and the fraction of that kept further down
   const CONTENT   = 640;      // half the content column width, CSS px
 
   // ── The wall: 256×1024 strips (powers of two, so coordinates wrap with
@@ -325,7 +329,7 @@
   // weight for every pixel).
   function sense(out) {
     if (!tex) {
-      if (!enabled || !wide.matches) return;   // not needed yet
+      if (!enabled) return;   // not needed yet
       tex = buildWall();
     }
     const oy = window.scrollY / CELL;
@@ -340,11 +344,13 @@
 
   // Full strength while the hero is on screen, then fade to QUIET over the
   // next half screen so events don't compete with the rest of the page.
+  // Narrow screens start lower, since there events sit over the content.
   const hero = document.getElementById('hero');
   function strength() {
-    if (!hero) return 1;
+    const base = wide.matches ? 1 : NARROW, quiet = wide.matches ? QUIET : NARROW_QUIET;
+    if (!hero) return base;
     const t = -hero.getBoundingClientRect().bottom / (0.5 * window.innerHeight);
-    return 1 - (1 - QUIET) * Math.min(1, Math.max(0, t));
+    return base * (1 - (1 - quiet) * Math.min(1, Math.max(0, t)));
   }
 
   // Size the sensor to the window. Only grow in height, so a collapsing
@@ -379,7 +385,7 @@
   }
 
   function step(now) {
-    if (!enabled || !wide.matches) { running = false; return; }
+    if (!enabled) { running = false; return; }
     const s = window.scrollY;
     if (s !== lastScroll) {
       // A jump of more than a screen (nav link, Home/End) isn't motion.
@@ -413,7 +419,7 @@
   }
 
   function wake() {
-    if (running || !enabled || !wide.matches) return;
+    if (running || !enabled) return;
     running = true;
     requestAnimationFrame(step);
   }
