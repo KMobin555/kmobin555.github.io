@@ -47,34 +47,44 @@
   const QUIET     = 0.3;      // strength once past the hero section
   const CONTENT   = 640;      // half the content column width, CSS px
 
-  // ── The wall: 128×2048 strips (powers of two, so coordinates wrap with
+  // ── The wall: 256×1024 strips (powers of two, so coordinates wrap with
   // a mask). Each side margin reads the wall starting at the content edge.
-  // Items sit in two staggered columns (the right one half a step lower, so
-  // there are no rows), evenly spaced so there are no big gaps, and each is
-  // nudged off its slot at random and leans a little, half to the left and
-  // half to the right. There are four variants of the strip with items
-  // shuffled into different slots; an item is kept well away vertically from
-  // where it sits in the other variants, and neighbouring strips across the
-  // screen always use different variants, so no item repeats along a row.
-  const TW = 128, TH = 2048, MASK_X = TW - 1, MASK_Y = TH - 1;
-  const VARIANTS = 4;
+  // The layout copies the hand-placed 256×256 tile of the event-camera wall
+  // that inspired this: 12 spots (6 icons, 5 letters, 1 word) at fixed
+  // positions and tilts. A strip stacks four such tiles, each with different
+  // items, so the margins don't repeat every tile. There are four variants of
+  // the strip, each shifted a quarter tile further down; neighbouring strips
+  // across the screen always use adjacent variants. Items are shuffled into
+  // the spots so the same item is never near itself within a strip and
+  // never shares a row with itself in an adjacent variant.
+  const TW = 256, TH = 1024, TILE = 256, MASK_X = TW - 1, MASK_Y = TH - 1;
+  const VARIANTS = 4, TILES = TH / TILE;
   const WALL = 'rgb(235, 235, 235)', INK = 'rgb(20, 20, 20)';
+  // [x, y, angle, kind of spot] within one tile
+  const SPOTS = [
+    [ 32,  36, -0.12, 'icon'],
+    [100,  28,  0.15, 'letter'],
+    [222,  40,  0.08, 'icon'],
+    [104, 100,  0.03, 'icon'],
+    [166,  92, -0.12, 'letter'],
+    [ 30, 160, -0.20, 'letter'],
+    [170, 168, -0.05, 'icon'],
+    [232, 150,  0.10, 'letter'],
+    [ 40, 226,  0.30, 'icon'],
+    [110, 222,  0.06, 'icon'],
+    [214, 220, -0.15, 'letter'],
+    [ 96, 160, -0.12, 'word'],
+  ];
   // Anything not a known icon is drawn as text
-  const KINDS = ['SAMSUNG', 'eye', 'M', 'ecg', 'O', 'robot', 'B', 'brain', 'spike', 'SUST',
-                 'I', 'watch', 'ai', 'soccer', 'N', 'cube', 'spikes', 'basketball', 'cricket'];
-  const isText = (kind) => /^[A-Z]+$/.test(kind);
-  // Every item once, plus a second copy of each picture icon (and a third
-  // eye) so all 32 slots are filled
-  const PLACE = [...KINDS, ...KINDS.filter((k) => !isText(k)), 'eye'];
-  const STEP = TH / 16;          // slot spacing within a column (16 slots each)
-  const SLOTS = [];              // [x, y] of the 32 staggered slots
-  for (let k = 0; k < 16; k++) SLOTS.push([34, STEP * (k + 0.25)], [94, STEP * (k + 0.75)]);
-  const JITTER_X = 12, JITTER_Y = 24;
-  // Picture icons are ~46 wide; words grow with their length
-  const halfWidth = (kind) => (!isText(kind) ? 23 : kind.length > 4 ? 44 : kind.length === 4 ? 26 : 23);
-  const HALF_H = 23, GAP = 5;    // icon half height, clearance between items
-  const AVOID = 110;             // min vertical distance to the same item in other variants
-  const SELF = 450;              // min vertical distance between copies in one variant
+  const ICONS = ['eye', 'ecg', 'robot', 'brain', 'spike', 'watch',
+                 'ai', 'soccer', 'cube', 'spikes', 'basketball', 'cricket'];
+  const LETTERS = ['M', 'O', 'B', 'I', 'N'];
+  const WORDS = ['SAMSUNG', 'SUST'];
+  const PHASE = TILE / 4;        // each variant is shifted down this much more than the
+                                 // last, so adjacent strips never line their spots up
+  const NEAR = 130;              // the same item never closer than this within a strip
+  const ROW = 40;                // nor within this height in an adjacent variant
+  const SEED = 3;                // layout seed (picked so every rule above holds)
 
   // Small seeded PRNG (mulberry32), so the wall is the same on every visit
   function rng(seed) {
@@ -86,8 +96,9 @@
     };
   }
 
-  // Signed vertical distance on the wrapping strip
+  // Signed distances on the wrapping strip
   const wrapDy = (d) => ((d % TH) + TH * 1.5) % TH - TH / 2;
+  const wrapDx = (d) => ((d % TW) + TW * 1.5) % TW - TW / 2;
 
   const shuffle = (a, rand) => {
     for (let i = a.length - 1; i > 0; i--) {
@@ -96,55 +107,38 @@
     }
     return a;
   };
-  const far = (ys, d, y) => ys.every((oy) => Math.abs(wrapDy(y - oy)) >= d);
-  const overlaps = (x, y, kind, [px, py, , pk]) => {
-    const dx = (x - px) / (halfWidth(kind) + halfWidth(pk) + GAP);
-    const dy = wrapDy(y - py) / (2 * HALF_H + GAP);
-    return dx * dx + dy * dy < 1;
-  };
 
   // [x, y, angle, icon] for every item of every strip variant
-  const LAYOUTS = [];
-  for (let v = 0; v < VARIANTS; v++) {
-    const rand = rng(1234 + 97 * v);
-    // 1. Shuffle items into slots, respecting the same-item spacing rules.
-    //    Retry the shuffle until a slot never has to break them (keeping the
-    //    least-broken attempt if none is perfect).
-    let assigned = [], fewest = Infinity;
-    for (let attempt = 0; attempt < 200 && fewest > 0; attempt++) {
-      const left = shuffle([...PLACE], rand), trial = [];
-      let broken = 0;
-      for (const [sx, sy] of shuffle(SLOTS.map((s) => [...s]), rand)) {
-        if (!left.length) break;
-        const fits = (k) => far(trial.filter((a) => a[2] === k).map((a) => a[1]), SELF, sy) &&
-          far(LAYOUTS.flatMap((l) => l.filter((p) => p[3] === k).map((p) => p[1])), AVOID, sy);
-        let i = left.findIndex(fits);
-        if (i < 0) { i = 0; broken++; }
-        trial.push([sx, sy, left.splice(i, 1)[0]]);
+  function buildLayouts() {
+    const LAYOUTS = [];
+    for (let v = 0; v < VARIANTS; v++) {
+      const rand = rng(SEED + 97 * v);
+      // Variants that can sit beside this one across the screen (strips
+      // cycle through the variants, so only v - 1 and v + 1 are neighbours)
+      const beside = LAYOUTS.filter((_, w) => (v - w + VARIANTS) % VARIANTS === 1 || (w - v + VARIANTS) % VARIANTS === 1)
+        .flat();
+      const icons = shuffle([...ICONS], rand);   // half per tile, alternating halves
+      const placed = [];
+      for (let t = 0; t < TILES; t++) {
+        const set = t % 2 ? icons.slice(6) : icons.slice(0, 6);
+        // Reshuffle this tile until no item lands near itself (keeping the
+        // best attempt if none is perfect)
+        let best = null, fewest = Infinity;
+        for (let attempt = 0; attempt < 400 && fewest > 0; attempt++) {
+          const pools = { icon: shuffle([...set], rand), letter: shuffle([...LETTERS], rand), word: [WORDS[(t + v) % 2]] };
+          const tile = SPOTS.map(([x, y, angle, spot]) => [x, (y + t * TILE + v * PHASE) % TH, angle, pools[spot].pop()]);
+          let bad = 0;
+          for (const [x, y, , k] of tile) {
+            if (placed.some(([px, py, , pk]) => pk === k && Math.hypot(wrapDx(x - px), wrapDy(y - py)) < NEAR)) bad++;
+            if (beside.some(([, py, , pk]) => pk === k && Math.abs(wrapDy(y - py)) < ROW)) bad++;
+          }
+          if (bad < fewest) { fewest = bad; best = tile; }
+        }
+        placed.push(...best);
       }
-      if (broken < fewest) { fewest = broken; assigned = trial; }
+      LAYOUTS.push(placed);
     }
-    // 2. Nudge each item off its slot at random without touching any
-    //    neighbour (the wide word goes first and stays centred; with no
-    //    nudge at all the slots are always clear).
-    assigned.sort((a, b) => halfWidth(b[2]) - halfWidth(a[2]));
-    const placed = [];
-    // Exactly half lean left and half right, in shuffled order
-    const signs = shuffle(assigned.map((_, i) => (i % 2 ? 1 : -1)), rand);
-    assigned.forEach(([sx, sy, kind], i) => {
-      const wide = halfWidth(kind) > 30;
-      let x = wide ? TW / 2 : sx, y = sy;
-      for (let t = 0; t < 40; t++) {
-        const s = t < 30 ? 1 : (40 - t) / 10;   // shrink the nudge if crowded
-        const nx = wide ? TW / 2 : sx + (rand() * 2 - 1) * JITTER_X * s;
-        const ny = sy + (rand() * 2 - 1) * JITTER_Y * s;
-        if (!placed.some((p) => overlaps(nx, ny, kind, p))) { x = nx; y = ny; break; }
-      }
-      // Every item leans a little, never upright, like stickers on a wall
-      const lean = isText(kind) ? 0.09 + rand() * 0.2 : 0.12 + rand() * 0.18;
-      placed.push([x, y, signs[i] * lean, kind]);
-    });
-    LAYOUTS.push(placed);
+    return LAYOUTS;
   }
 
   const circle = (g, x, y, r) => { g.beginPath(); g.arc(x, y, r, 0, 2 * Math.PI); g.fill(); };
@@ -276,29 +270,35 @@
 
   // Log-brightness texture of all strip variants, stacked one after another.
   // Each icon is also drawn shifted by a strip in every direction so icons
-  // crossing the border wrap around.
+  // crossing the border wrap around. Built lazily, the first time events are
+  // switched on, so visitors who never turn them on pay nothing.
   const STRIP = TW * TH;
-  const tex = new Float32Array(VARIANTS * STRIP);
-  for (let v = 0; v < VARIANTS; v++) {
-    const c = document.createElement('canvas');
-    c.width = TW; c.height = TH;
-    const g = c.getContext('2d');
-    g.fillStyle = WALL;
-    g.fillRect(0, 0, TW, TH);
-    for (const [x, y, angle, kind] of LAYOUTS[v]) {
-      for (let ox = -TW; ox <= TW; ox += TW) {
-        for (let oy = -TH; oy <= TH; oy += TH) {
-          g.save();
-          g.translate(x + ox, y + oy);
-          g.rotate(angle);
-          g.fillStyle = g.strokeStyle = INK;
-          icon(g, kind);
-          g.restore();
+  let tex = null;
+  function buildWall() {
+    const LAYOUTS = buildLayouts();
+    const out = new Float32Array(VARIANTS * STRIP);
+    for (let v = 0; v < VARIANTS; v++) {
+      const c = document.createElement('canvas');
+      c.width = TW; c.height = TH;
+      const g = c.getContext('2d');
+      g.fillStyle = WALL;
+      g.fillRect(0, 0, TW, TH);
+      for (const [x, y, angle, kind] of LAYOUTS[v]) {
+        for (let ox = -TW; ox <= TW; ox += TW) {
+          for (let oy = -TH; oy <= TH; oy += TH) {
+            g.save();
+            g.translate(x + ox, y + oy);
+            g.rotate(angle);
+            g.fillStyle = g.strokeStyle = INK;
+            icon(g, kind);
+            g.restore();
+          }
         }
       }
+      const px = g.getImageData(0, 0, TW, TH).data;
+      for (let i = 0; i < STRIP; i++) out[v * STRIP + i] = Math.log((px[4 * i] + 1) / 256);
     }
-    const px = g.getImageData(0, 0, TW, TH).data;
-    for (let i = 0; i < STRIP; i++) tex[v * STRIP + i] = Math.log((px[4 * i] + 1) / 256);
+    return out;
   }
 
   // ── Event colours (site blue / red, brighter in dark mode) ────────────
@@ -324,6 +324,10 @@
   // sampling the wall with vertical linear interpolation (same sub-pixel
   // weight for every pixel).
   function sense(out) {
+    if (!tex) {
+      if (!enabled || !wide.matches) return;   // not needed yet
+      tex = buildWall();
+    }
     const oy = window.scrollY / CELL;
     const iy = Math.floor(oy), fy = oy - iy;
     for (let y = 0, i = 0; y < H; y++) {
